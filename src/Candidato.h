@@ -17,8 +17,7 @@ class Candidato {
 
 private:
 	//atributos
-	//char situacao;
-	std::string colocacao;
+	char situacao;
 	double num;
 	std::string nome;
 	//partido
@@ -31,9 +30,9 @@ public:
 	void printCandidato();
 
 
-	//
-	const std::string& getColocacao() const;
-	void setColocacao(const std::string& colocacao);
+	//SITUAÇÃO
+	void setSituacao(const std::string& colocacao);
+	char getSituacao() const;
 
 	//construtor e destrutor
 	Candidato();
@@ -47,9 +46,6 @@ public:
 	double getNum() const;
 	void setNum(double num);
 
-	//situação
-	char getSituacao() const;
-	void setSituacao(char situacao);
 
 	//votos
 	double getVotos() const;

@@ -9,63 +9,153 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
-//bibliotecas extras
+#include <list>
 #include <sstream>
-#include <locale>
 
 //classes
 #include "Candidato.h"
-#include "CandidatoSentinel.h"
+#include "Partido.h"
+#include "Coligacao.h"
 
 using namespace std;
 
-Candidato* retornaCandidato(std::ifstream& in, string linha){
-	Candidato c = Candidato();
+//listas
+list<Candidato*> candidatos;
+list<Partido*> partidos;
+list<Coligacao*> coligacoes;
+string partidoColigacao;
+
+void adicionaPartido(Candidato* c, string linha){
+	//caso tal string n tenhe sido encontrada o candidato n
+	//esta em uma coligação
+
+	for(Partido* p : partidos){
+		//se compare retornar 0 as strings são iguais
+		if(linha.compare(p->getNome()) == 0){
+			p->setVotos(c->getVotos());
+			if(c->getSituacao() == '*'){
+				p->setEleitos(1);//adiciona um eleito ao contador de eleitos
+			}
+
+			return;//mata a função assim q a coligação for encontrada
+				   // e atualizada
+		}
+	}
+
+	Partido* p = new Partido(linha);
+	p->setVotos(c->getVotos());
+
+	if(c->getSituacao() == '*'){
+		p->setEleitos(1);
+	}
+	partidos.push_back(p);
+
+}
+
+void adicionaColigacao(Candidato* c, string linha){
+	//caso tal string n tenhe sido encontrada o candidato n
+	//esta em uma coligação
+
+	for(Coligacao* co : coligacoes){
+		//se compare retornar 0 as strings são iguais
+		if(linha.compare(co->getNome()) == 0){
+			co->setVotos(c->getVotos());
+
+			if(c->getSituacao() == '*'){
+				co->setEleitos(1);//adiciona um eleito ao contador de eleitos
+			}
+
+			return;//mata a função assim q a coligação for encontrada
+				   // e atualizada
+		}
+	}
+
+	Coligacao* co = new Coligacao(linha);
+	co->setVotos(c->getVotos());
+
+	if(c->getSituacao() == '*'){
+		co->setEleitos(1);
+	}
+	coligacoes.push_back(co);
+
+
+}
+
+void splitPartidoColigacao(Candidato* c, string linha){
+	int split = linha.find(" - "); //string q separa partido de coligação
+
+	if(split == -1){
+		adicionaPartido(c, linha);
+		adicionaColigacao(c, linha);
+	}
+	else{
+		//caso seja encontrada o split terá o valor da primeira posição da
+		//string " - " logo tudo antes dela será o partido em questão
+		string partido = linha.substr(0, split);
+		//cout << partido << endl;
+		adicionaPartido(c, partido);
+
+		string coligacao = linha.substr(split+3/*pula para o começo da coligacao*/, linha.size());
+		adicionaColigacao(c, coligacao);
+
+	}
+
+
+}
+
+void adicionaCandidato(ifstream& in, string linha){
+	Candidato *c = new Candidato();
 	double numero;
 	//Seq. (i);Núm.;Candidato;Partido/Coligação;Votação;% Válidos Formatação do texto
+	//*0001;23123;FABRÍCIO GANDINI;PPS - PPS / PROS;7.611;4,21 %
 
 	//colocação,  aprimeira linha já é pega pelo loop
-	//cout << linha;
-	c.setColocacao(linha);
-	//cout << " ";
+	c->setSituacao(linha);
 
 	//numero
 	getline(in, linha, ';');
 	//conversão de string para double
 	istringstream (linha) >> numero;
-	//cout << numero;
-	//cout << " ";
-	c.setNum(numero);
+	c->setNum(numero);
 
 	//nome
 	getline(in, linha, ';');
-	//cout << linha;
-	//cout << " ";
-	c.setNome(linha);
-
+	c->setNome(linha);
 
 	//Partido/Coligação
 	getline(in, linha, ';');
-	//cout << linha;
-	//cout << " ";
+	partidoColigacao = linha;
 
 	//votos
 	getline(in, linha, ';');
 	//conversão de string para double
 	istringstream (linha) >> numero;
-	//cout << numero;
-	//cout << " ";
-	c.setVotos(numero);
+	c->setVotos(numero);
 
 	//validos
-	getline(in, linha, '\n');
-	//cout << linha;
+	getline(in, linha, '\n'); //não é utilizado para resolver o problema
 
-	c.printCandidato();
-	Candidato* k = &c;
-	return k;
+	//Partido/Coligacao
+	splitPartidoColigacao(c, partidoColigacao); //chamar essa função aqui, pois
+												//os votos do candidato estão computados
 
+	candidatos.push_back(c);
+
+}
+
+//Listas
+string vagas(){
+	int vagas = 0;
+	for(Candidato* c : candidatos){
+		if(c->getSituacao() == '*'){
+			vagas++;
+		}
+	}
+
+	string saida = "Número de vagas: " + std::to_string(vagas) + "\n";
+
+
+	return saida;
 }
 
 int main() {
@@ -75,19 +165,14 @@ int main() {
 
 	getline(in, linha); //linha lixo
 
-	//sentinela
-	CandidatoSentinel sentinel = CandidatoSentinel();
-
-
 	//loop q ira ler o texto
 	//o getline pode pegar os elementos até o delimitador ';'
 	while (getline(in, linha, ';')){
-		//cout << "algo2";
-		Candidato* k = retornaCandidato(in,linha);
-		sentinel.addCandidato(k);
+		//coloca candidato na lista
+		adicionaCandidato(in, linha);
 	}
 
-	//cout << sentinel.getVagas() << endl;
+	cout << vagas();
 
 	in.close();
 

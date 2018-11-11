@@ -13,7 +13,7 @@
 using namespace std;
 
 Candidato::Candidato(){
-	colocacao = " ";
+	situacao = '0';
 	num = 0;
 	nome = "";
 	//partido
@@ -24,50 +24,48 @@ Candidato::Candidato(){
 
 //printa candidato
 void Candidato::printCandidato(){
-	cout << colocacao << " ";
+	//cout << colocacao << " ";
 	cout << num << " ";
 	cout << nome << " ";
 	cout << votos << "\n";
 }
 
-
+//NOME
 const std::string& Candidato::getNome() const {
 	return nome;
 }
-
 void Candidato::setNome(const std::string& nome) {
 	this->nome = nome;
 }
 
+//NUM
 double Candidato::getNum() const {
 	return num;
 }
-
 void Candidato::setNum(double num) {
 	this->num = num;
 }
 
-
-double Candidato::getVotos() const {
-	return votos;
+//SITUAÇÃO
+void Candidato::setSituacao(const std::string& colocacao) {
+	this->situacao = colocacao[0];
+}
+char Candidato::getSituacao() const {
+	return situacao;
 }
 
-const std::string& Candidato::getColocacao() const {
-	return colocacao;
-}
-
-void Candidato::setColocacao(const std::string& colocacao) {
-	this->colocacao = colocacao;
-}
-
+//PROXIMO CANDIDATO
 Candidato*& Candidato::getNext() {
 	return this->next;
 }
-
 void Candidato::setNext(Candidato*& next) {
 	this->next = next;
 }
 
+//VOTOS
+double Candidato::getVotos() const {
+	return votos;
+}
 void Candidato::setVotos(double votos) {
 	this->votos = votos;
 }
