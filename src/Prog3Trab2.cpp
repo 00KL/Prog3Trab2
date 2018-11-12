@@ -22,6 +22,8 @@ using namespace std;
 
 //listas
 list<Candidato*> candidatos;
+list<Candidato*> candidatosMaisVotados;
+
 list<Partido*> partidos;
 list<Coligacao*> coligacoes;
 string partidoColigacao;
@@ -133,11 +135,10 @@ void adicionaCandidato(ifstream& in, string linha){
 
 	//votos
 	getline(in, linha, ';');
-	//conversão de string para double
-	//setlocale(LC_ALL, "Portuguese");
+	//conversão de string para int
 	istringstream iss(linha);
-	locale brasilLocale("");
-	iss.imbue(brasilLocale);
+	//locale brasilLocale("pt_BR.UTF-8");
+	//iss.imbue(brasilLocale);
 	iss >> numero;
 	c->setVotos(numero);
 
@@ -153,7 +154,7 @@ void adicionaCandidato(ifstream& in, string linha){
 }
 
 //Listas
-string vagas(){
+int vagas(){
 	int vagas = 0;
 	for(Candidato* c : candidatos){
 		if(c->getSituacao() == '*'){
@@ -161,10 +162,7 @@ string vagas(){
 		}
 	}
 
-	string saida = "Número de vagas: " + std::to_string(vagas) + "\n\n";
-
-
-	return saida;
+	return vagas;
 }
 
 string eleitos(){
@@ -180,6 +178,59 @@ string eleitos(){
 	}
 	saida += "\n\n";
 
+	return saida;
+}
+
+bool comparaCandidatos(Candidato* a, Candidato* b){
+	return a->getVotos() > b->getVotos();
+}
+
+string maisVotados(int vagas){
+	candidatosMaisVotados = candidatos;
+	candidatosMaisVotados.sort(comparaCandidatos);
+
+	int cont = 0;
+	string saida = "Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):\n\n";
+
+	for(Candidato* c : candidatosMaisVotados){
+		cont++;
+		saida += std::to_string(cont) + " - ";
+		saida += c->printCandidato();
+		if( cont == vagas ) break;
+	}
+	saida += "\n\n";
+	return saida;
+}
+
+string majoritaria(int vagas){
+	string saida;
+	Candidato* a = candidatos.begin();
+	Candidato* b = candidatosMaisVotados.begin();
+
+	for(int i = 0; i < vagas ; i++){
+		for(int j = 0; j < vagas; i++){
+			if(a->getNome().compare(b->getNome()) == 0)
+		}
+	}
+
+}
+
+bool comparaColigacao(Coligacao* a, Coligacao* b){
+	return a->getVotos() > b->getVotos();
+}
+
+string votacaoColigacao(){
+	coligacoes.sort(comparaColigacao);
+
+	int cont = 0;
+	string saida = "Votação (nominal) das coligações e número de candidatos eleitos:\n\n";
+
+	for(Coligacao* co : coligacoes){
+		cont++;
+		saida += std::to_string(cont) + " - ";
+		saida += co->printColigacao();
+	}
+	saida += "\n\n";
 	return saida;
 }
 
@@ -215,7 +266,7 @@ int main() {
 	//std::locale mylocale("C");   // get global locale
 	//std::ifstream.imbue(mylocale);
 	//in.imbue(mylocale);
-	//setlocale(LC_ALL, "Portuguese");
+	//setlocale(LC_ALL, "pt_BR.utf8");
 
 	string linha;
 
@@ -230,9 +281,17 @@ int main() {
 		adicionaCandidato(in, linha);
 	}
 
-	cout << vagas();
+	int vagasAux = vagas();
+	string saida = "Número de vagas: " + std::to_string(vagasAux) + "\n\n";
+	cout << saida;
+
 	cout << eleitos();
+	cout << maisVotados(vagasAux);
+
+
+	cout << votacaoColigacao();
 	cout << votacaoPartidos();
+
 	cout << totalNominais();
 
 	in.close();

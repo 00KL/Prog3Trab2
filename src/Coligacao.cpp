@@ -38,8 +38,11 @@ void Coligacao::setVotos(double votos) {
 this->votos += votos;
 }
 
-void Coligacao::printColigacao(){
-	cout << this->nome << " " << this->votos << " " << this->eleitos << endl;
+string Coligacao::printColigacao(){
+	string saida =  this->nome + ", ";
+	saida += std::to_string(this->votos) + " votos, ";
+	saida += std::to_string(this->eleitos) + " candidatos eleitos \n";
+	return saida;
 }
 
 Coligacao::~Coligacao() {

@@ -22,12 +22,14 @@ private:
 public:
 	int getEleitos() const;
 	void setEleitos(int eleitos);
+
 	const string& getNome() const;
 	void setNome(const string& nome);
+
 	double getVotos() const;
 	void setVotos(double votos);
 
-	void printColigacao();
+	string printColigacao();
 
 	Coligacao(string& n);
 	virtual ~Coligacao();
