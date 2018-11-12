@@ -20,13 +20,16 @@
 
 using namespace std;
 
-//listas
+//Variaveis Globais
 list<Candidato*> candidatos;
 list<Candidato*> candidatosMaisVotados;
 
 list<Partido*> partidos;
 list<Coligacao*> coligacoes;
+
 string partidoColigacao;
+int vagas;
+
 
 void adicionaPartido(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
@@ -154,15 +157,13 @@ void adicionaCandidato(ifstream& in, string linha){
 }
 
 //Listas
-int vagas(){
-	int vagas = 0;
+void setVagas(){
+	vagas = 0;
 	for(Candidato* c : candidatos){
 		if(c->getSituacao() == '*'){
 			vagas++;
 		}
 	}
-
-	return vagas;
 }
 
 string eleitos(){
@@ -185,7 +186,7 @@ bool comparaCandidatos(Candidato* a, Candidato* b){
 	return a->getVotos() > b->getVotos();
 }
 
-string maisVotados(int vagas){
+string maisVotados(){
 	candidatosMaisVotados = candidatos;
 	candidatosMaisVotados.sort(comparaCandidatos);
 
@@ -202,16 +203,70 @@ string maisVotados(int vagas){
 	return saida;
 }
 
-string majoritaria(int vagas){
-	string saida;
-	Candidato* a = candidatos.begin();
-	Candidato* b = candidatosMaisVotados.begin();
+string nFoiEleito(Candidato* c, int posicao){
+	int cont = 0;
+	for(Candidato* can : candidatos){
+		cont++;
+		if(c->getNome().compare(can->getNome()) == 0){
+			return "";
+		}
+		if(cont == vagas) break;
+	}
+	string saida = std::to_string(posicao) + " - ";
+	saida += c->printCandidato();
+	return saida;
+}
 
-	for(int i = 0; i < vagas ; i++){
-		for(int j = 0; j < vagas; i++){
-			if(a->getNome().compare(b->getNome()) == 0)
+string majoritaria(){
+	string saida = "Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n";
+	saida += "(com sua posição no ranking de mais votados)\n";
+	int cont = 0;
+
+	for(Candidato* c : candidatosMaisVotados){
+		cont++;
+		saida += nFoiEleito(c, cont);
+
+		if(cont == vagas) break;
+	}
+
+	saida += "\n\n";
+
+	return saida;
+
+}
+
+string foiEleito(Candidato* c){
+	int cont = 0;
+	for(Candidato* can : candidatosMaisVotados){
+		cont++;
+
+		if(cont >= vagas){
+			if(c->getNome().compare(can->getNome()) == 0){
+				string saida = std::to_string(cont) + " - ";
+				saida += c->printCandidato();
+				return saida;
+			}
 		}
 	}
+
+	return "";
+}
+
+string beneficiados(){
+	string saida = "Eleitos, que se beneficiaram do sistema proporcional:\n";
+	saida += "(com sua posição no ranking de mais votados)\n";
+	int cont = 0;
+
+	for(Candidato* c : candidatos){
+		cont++;
+		saida += foiEleito(c);
+
+		if(cont == vagas) break;
+	}
+
+	saida += "\n\n";
+
+	return saida;
 
 }
 
@@ -281,13 +336,14 @@ int main() {
 		adicionaCandidato(in, linha);
 	}
 
-	int vagasAux = vagas();
-	string saida = "Número de vagas: " + std::to_string(vagasAux) + "\n\n";
+	setVagas();
+	string saida = "Número de vagas: " + std::to_string(vagas) + "\n\n";
 	cout << saida;
 
 	cout << eleitos();
-	cout << maisVotados(vagasAux);
-
+	cout << maisVotados();
+	cout << majoritaria();
+	cout << beneficiados();
 
 	cout << votacaoColigacao();
 	cout << votacaoPartidos();
