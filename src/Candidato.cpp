@@ -15,19 +15,20 @@ using namespace std;
 Candidato::Candidato(){
 	situacao = '0';
 	num = 0;
+	partido = NULL;
+	coligacao = NULL;
 	nome = "";
-	//partido
-	//coligacao
 	votos = 0;
 	next = NULL;
 }
 
 //printa candidato
-void Candidato::printCandidato(){
-	//cout << colocacao << " ";
-	cout << num << " ";
-	cout << nome << " ";
-	cout << votos << "\n";
+string Candidato::printCandidato(){
+	string saida = nome + " ";
+	saida += "(" + partido->getNome() + ", " +  std::to_string(votos) + ") - ";
+	saida += "Coligação: " + coligacao->getNome() + "\n";
+
+	return saida;
 }
 
 //NOME
@@ -52,6 +53,22 @@ void Candidato::setSituacao(const std::string& colocacao) {
 }
 char Candidato::getSituacao() const {
 	return situacao;
+}
+
+Coligacao*& Candidato::getColigacao() {
+	return coligacao;
+}
+
+void Candidato::setColigacao( Coligacao*& coligacao) {
+	this->coligacao = coligacao;
+}
+
+Partido*& Candidato::getPartido() {
+	return partido;
+}
+
+void Candidato::setPartido(Partido*& partido) {
+	this->partido = partido;
 }
 
 //PROXIMO CANDIDATO

@@ -11,6 +11,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
+#include "Partido.h"
+#include "Coligacao.h"
 using namespace std;
 
 class Candidato {
@@ -20,14 +23,14 @@ private:
 	char situacao;
 	double num;
 	std::string nome;
-	//partido
-	//coligacao
+	Partido* partido;
+	Coligacao* coligacao;
 	double votos;
 	Candidato* next;
 
 public:
 	//printa candidato
-	void printCandidato();
+	string printCandidato();
 
 
 	//SITUAÇÃO
@@ -54,6 +57,14 @@ public:
 	//next
 	void setNext(Candidato*& next);
 	Candidato*& getNext();
+
+	//COLIGACAO
+	Coligacao*& getColigacao();
+	void setColigacao( Coligacao*& coligacao);
+
+	//PARTIDO
+	Partido*& getPartido();
+	void setPartido(Partido*& partido);
 };
 
 #endif /* CANDIDATO_H_ */

@@ -34,6 +34,8 @@ public:
 
 	string printPartido();
 
+	bool comparaPartido(Partido* a, Partido* b);
+
 };
 
 #endif /* PARTIDO_H_ */

@@ -11,6 +11,7 @@
 #include <string>
 #include <list>
 #include <sstream>
+#include <locale>
 
 //classes
 #include "Candidato.h"
@@ -37,6 +38,7 @@ void adicionaPartido(Candidato* c, string linha){
 				p->setEleitos(1);//adiciona um eleito ao contador de eleitos
 			}
 
+			c->setPartido(p);
 			return;//mata a função assim q a coligação for encontrada
 				   // e atualizada
 		}
@@ -49,6 +51,7 @@ void adicionaPartido(Candidato* c, string linha){
 		p->setEleitos(1);
 	}
 	partidos.push_back(p);
+	c->setPartido(p);
 
 }
 
@@ -65,6 +68,7 @@ void adicionaColigacao(Candidato* c, string linha){
 				co->setEleitos(1);//adiciona um eleito ao contador de eleitos
 			}
 
+			c->setColigacao(co);
 			return;//mata a função assim q a coligação for encontrada
 				   // e atualizada
 		}
@@ -77,6 +81,7 @@ void adicionaColigacao(Candidato* c, string linha){
 		co->setEleitos(1);
 	}
 	coligacoes.push_back(co);
+	c->setColigacao(co);
 
 
 }
@@ -129,7 +134,11 @@ void adicionaCandidato(ifstream& in, string linha){
 	//votos
 	getline(in, linha, ';');
 	//conversão de string para double
-	istringstream (linha) >> numero;
+	//setlocale(LC_ALL, "Portuguese");
+	istringstream iss(linha);
+	locale brasilLocale("");
+	iss.imbue(brasilLocale);
+	iss >> numero;
 	c->setVotos(numero);
 
 	//validos
@@ -152,16 +161,65 @@ string vagas(){
 		}
 	}
 
-	string saida = "Número de vagas: " + std::to_string(vagas) + "\n";
+	string saida = "Número de vagas: " + std::to_string(vagas) + "\n\n";
 
 
+	return saida;
+}
+
+string eleitos(){
+	int cont = 0;
+	string saida = "Vereadores eleitos:\n\n";
+	for(Candidato* c : candidatos){
+		if(c->getSituacao() == '*'){
+			cont++;
+			saida += std::to_string(cont) + " - ";
+			saida += c->printCandidato();
+		}
+
+	}
+	saida += "\n\n";
+
+	return saida;
+}
+
+bool comparaPartido(Partido* a, Partido* b){
+	return a->getVotos() > b->getVotos();
+}
+
+string votacaoPartidos(){
+	partidos.sort(comparaPartido);
+
+	int cont = 0;
+	string saida = "Votação (nominal) dos partidos e número de candidatos eleitos:\n\n";
+
+	for(Partido* p : partidos){
+		cont++;
+		saida += std::to_string(cont) + " - ";
+		saida += p->printPartido();
+	}
+	saida += "\n\n";
+	return saida;
+
+}
+
+string totalNominais(){
+	string saida = std::to_string(candidatos.size());
 	return saida;
 }
 
 int main() {
 	//leitura de arquivo
 	ifstream in("test.txt");
+
+	//std::locale mylocale("C");   // get global locale
+	//std::ifstream.imbue(mylocale);
+	//in.imbue(mylocale);
+	//setlocale(LC_ALL, "Portuguese");
+
 	string linha;
+
+
 
 	getline(in, linha); //linha lixo
 
@@ -173,6 +231,9 @@ int main() {
 	}
 
 	cout << vagas();
+	cout << eleitos();
+	cout << votacaoPartidos();
+	cout << totalNominais();
 
 	in.close();
 

@@ -38,8 +38,14 @@ void Partido::setVotos(double votos) {
 }
 
 string Partido::printPartido(){
-	string saida =  this->nome + " " + std::to_string(this->votos) + " " + std::to_string(this->eleitos) + "\n";
+	string saida =  this->nome + ", ";
+	saida += std::to_string(this->votos) + " votos, ";
+	saida += std::to_string(this->eleitos) + " candidatos eleitos \n";
 	return saida;
+}
+
+bool Partido::comparaPartido(Partido* a, Partido* b){
+	return a->getVotos() < b->getVotos();
 }
 
 Partido::~Partido() {
