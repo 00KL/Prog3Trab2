@@ -21,11 +21,11 @@ class Candidato {
 private:
 	//atributos
 	char situacao;
-	double num;
+	int num;
 	std::string nome;
 	Partido* partido;
 	Coligacao* coligacao;
-	double votos;
+	int votos;
 	Candidato* next;
 
 public:
@@ -46,13 +46,13 @@ public:
 	void setNome(const std::string& nome);
 
 	//num
-	double getNum() const;
-	void setNum(double num);
+	int getNum() const;
+	void setNum(int num);
 
 
 	//votos
-	double getVotos() const;
-	void setVotos(double votos);
+	int getVotos() const;
+	void setVotos(int votos);
 
 	//next
 	void setNext(Candidato*& next);

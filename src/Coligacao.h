@@ -16,7 +16,7 @@ using namespace std;
 class Coligacao {
 private:
 	string nome;
-	double votos;
+	int votos;
 	int eleitos;
 
 public:
@@ -26,8 +26,8 @@ public:
 	const string& getNome() const;
 	void setNome(const string& nome);
 
-	double getVotos() const;
-	void setVotos(double votos);
+	int getVotos() const;
+	void setVotos(int votos);
 
 	string printColigacao();
 

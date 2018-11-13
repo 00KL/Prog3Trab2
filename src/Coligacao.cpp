@@ -16,26 +16,27 @@ Coligacao::Coligacao(string& n){
 }
 
 int Coligacao::getEleitos() const {
-return eleitos;
+	return eleitos;
 }
 
 void Coligacao::setEleitos(int eleitos) {
-this->eleitos += eleitos;
+	this->eleitos += eleitos;
 }
 
 const string& Coligacao::getNome() const {
-return nome;
+	return nome;
 }
 
 void Coligacao::setNome(const string& nome) {
-this->nome = nome;
+	this->nome = nome;
 }
 
-double Coligacao::getVotos() const {
-return votos;
+int Coligacao::getVotos() const {
+	return votos;
 }
-void Coligacao::setVotos(double votos) {
-this->votos += votos;
+
+void Coligacao::setVotos(int votos) {
+	this->votos += votos;
 }
 
 string Coligacao::printColigacao(){

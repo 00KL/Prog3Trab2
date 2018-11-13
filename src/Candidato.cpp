@@ -26,7 +26,7 @@ Candidato::Candidato(){
 string Candidato::printCandidato(){
 	string saida = nome + " ";
 	saida += "(" + partido->getNome() + ", " +  std::to_string(votos) + ") - ";
-	saida += "Coligação: " + coligacao->getNome() + "\n";
+	saida += "ColigaÃ§Ã£o: " + coligacao->getNome() + "\n";
 
 	return saida;
 }
@@ -40,14 +40,14 @@ void Candidato::setNome(const std::string& nome) {
 }
 
 //NUM
-double Candidato::getNum() const {
+int Candidato::getNum() const {
 	return num;
 }
-void Candidato::setNum(double num) {
+void Candidato::setNum(int num) {
 	this->num = num;
 }
 
-//SITUAÇÃO
+//SITUAï¾‡ï¾ƒO
 void Candidato::setSituacao(const std::string& colocacao) {
 	this->situacao = colocacao[0];
 }
@@ -59,7 +59,7 @@ Coligacao*& Candidato::getColigacao() {
 	return coligacao;
 }
 
-void Candidato::setColigacao( Coligacao*& coligacao) {
+void Candidato::setColigacao(Coligacao*& coligacao) {
 	this->coligacao = coligacao;
 }
 
@@ -80,10 +80,10 @@ void Candidato::setNext(Candidato*& next) {
 }
 
 //VOTOS
-double Candidato::getVotos() const {
+int Candidato::getVotos() const {
 	return votos;
 }
-void Candidato::setVotos(double votos) {
+void Candidato::setVotos(int votos) {
 	this->votos = votos;
 }
 

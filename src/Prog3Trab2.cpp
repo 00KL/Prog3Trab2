@@ -12,13 +12,12 @@
 #include <list>
 #include <sstream>
 #include <locale>
+using namespace std;
 
 //classes
 #include "Candidato.h"
 #include "Partido.h"
 #include "Coligacao.h"
-
-using namespace std;
 
 //Variaveis Globais
 list<Candidato*> candidatos;
@@ -33,10 +32,10 @@ int vagas;
 
 void adicionaPartido(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
-	//esta em uma coligação
+	//esta em uma coligaÃ§Ã£o
 
 	for(Partido* p : partidos){
-		//se compare retornar 0 as strings são iguais
+		//se compare retornar 0 as strings sÃ£o iguais
 		if(linha.compare(p->getNome()) == 0){
 			p->setVotos(c->getVotos());
 			if(c->getSituacao() == '*'){
@@ -44,7 +43,7 @@ void adicionaPartido(Candidato* c, string linha){
 			}
 
 			c->setPartido(p);
-			return;//mata a função assim q a coligação for encontrada
+			return;//mata a funÃ§Ã£o assim q a coligaÃ§Ã£o for encontrada
 				   // e atualizada
 		}
 	}
@@ -62,10 +61,10 @@ void adicionaPartido(Candidato* c, string linha){
 
 void adicionaColigacao(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
-	//esta em uma coligação
+	//esta em uma coligaÃ§Ã£o
 
 	for(Coligacao* co : coligacoes){
-		//se compare retornar 0 as strings são iguais
+		//se compare retornar 0 as strings sÃ£o iguais
 		if(linha.compare(co->getNome()) == 0){
 			co->setVotos(c->getVotos());
 
@@ -74,7 +73,7 @@ void adicionaColigacao(Candidato* c, string linha){
 			}
 
 			c->setColigacao(co);
-			return;//mata a função assim q a coligação for encontrada
+			return;//mata a funÃ§Ã£o assim q a coligaÃ§Ã£o for encontrada
 				   // e atualizada
 		}
 	}
@@ -92,39 +91,50 @@ void adicionaColigacao(Candidato* c, string linha){
 }
 
 void splitPartidoColigacao(Candidato* c, string linha){
-	int split = linha.find(" - "); //string q separa partido de coligação
+	int split = linha.find(" - "); //string q separa partido de coligaÃ§Ã£o
 
 	if(split == -1){
 		adicionaPartido(c, linha);
 		adicionaColigacao(c, linha);
 	}
 	else{
-		//caso seja encontrada o split terá o valor da primeira posição da
-		//string " - " logo tudo antes dela será o partido em questão
+		//caso seja encontrada o split terï¿½ o valor da primeira posiÃ§Ã£o da
+		//string " - " logo tudo antes dela serï¿½ o partido em questÃ£o
 		string partido = linha.substr(0, split);
 		//cout << partido << endl;
 		adicionaPartido(c, partido);
 
-		string coligacao = linha.substr(split+3/*pula para o começo da coligacao*/, linha.size());
+		string coligacao = linha.substr(split+3/*pula para o comeè¼Ÿ da coligacao*/, linha.size());
 		adicionaColigacao(c, coligacao);
 
 	}
+}
+
+int tiraPontos(string numString) {
+	unsigned ponto = numString.find(".");
+	while (ponto != string::npos) {
+		numString.erase(ponto, ponto);
+		ponto = numString.find(".");
+	}
 
 
+	//conversÃ£o de string para double
+	int numero;
+	istringstream (numString) >> numero;
+	return numero;
 }
 
 void adicionaCandidato(ifstream& in, string linha){
 	Candidato *c = new Candidato();
-	double numero;
-	//Seq. (i);Núm.;Candidato;Partido/Coligação;Votação;% Válidos Formatação do texto
-	//*0001;23123;FABRÍCIO GANDINI;PPS - PPS / PROS;7.611;4,21 %
+	//Seq. (i);NÃºm.;Candidato;Partido/ColigaÃ§Ã£o;VotaÃ§Ã£o;% Vç–idos FormataÃ§Ã£o do texto
+	//*0001;23123;FABRï¾CIO GANDINI;PPS - PPS / PROS;7.611;4,21 %
 
-	//colocação,  aprimeira linha já é pega pelo loop
+	//colocaÃ§Ã£o,  aprimeira linha jï¿½ ï¿½ pega pelo loop
 	c->setSituacao(linha);
 
 	//numero
 	getline(in, linha, ';');
-	//conversão de string para double
+	int numero;
 	istringstream (linha) >> numero;
 	c->setNum(numero);
 
@@ -132,25 +142,22 @@ void adicionaCandidato(ifstream& in, string linha){
 	getline(in, linha, ';');
 	c->setNome(linha);
 
-	//Partido/Coligação
+	//Partido/ColigaÃ§Ã£o
 	getline(in, linha, ';');
 	partidoColigacao = linha;
 
 	//votos
 	getline(in, linha, ';');
-	//conversão de string para int
-	istringstream iss(linha);
-	//locale brasilLocale("pt_BR.UTF-8");
-	//iss.imbue(brasilLocale);
-	iss >> numero;
-	c->setVotos(numero);
+	//conversÃ£o de string para int
+	int votos = tiraPontos(linha);
+	c->setVotos(votos);
 
 	//validos
-	getline(in, linha, '\n'); //não é utilizado para resolver o problema
+	getline(in, linha, '\n'); //nÃ£o ï¿½ utilizado para resolver o problema
 
 	//Partido/Coligacao
-	splitPartidoColigacao(c, partidoColigacao); //chamar essa função aqui, pois
-												//os votos do candidato estão computados
+	splitPartidoColigacao(c, partidoColigacao); //chamar essa funÃ§Ã£o aqui, pois
+												//os votos do candidato estÃ£o computados
 
 	candidatos.push_back(c);
 
@@ -191,7 +198,7 @@ string maisVotados(){
 	candidatosMaisVotados.sort(comparaCandidatos);
 
 	int cont = 0;
-	string saida = "Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):\n\n";
+	string saida = "Candidatos mais votados (em ordem decrescente de votaÃ§Ã£o e respeitando nÃºmero de vagas):\n\n";
 
 	for(Candidato* c : candidatosMaisVotados){
 		cont++;
@@ -218,8 +225,8 @@ string nFoiEleito(Candidato* c, int posicao){
 }
 
 string majoritaria(){
-	string saida = "Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n";
-	saida += "(com sua posição no ranking de mais votados)\n";
+	string saida = "Teriam sido eleitos se a votaÃ§Ã£o fosse majoritÃ¡ria, e nÃ£o foram eleitos:\n";
+	saida += "(com sua posiÃ§Ã£o no ranking de mais votados)\n";
 	int cont = 0;
 
 	for(Candidato* c : candidatosMaisVotados){
@@ -254,7 +261,7 @@ string foiEleito(Candidato* c){
 
 string beneficiados(){
 	string saida = "Eleitos, que se beneficiaram do sistema proporcional:\n";
-	saida += "(com sua posição no ranking de mais votados)\n";
+	saida += "(com sua posiÃ§Ã£o no ranking de mais votados)\n";
 	int cont = 0;
 
 	for(Candidato* c : candidatos){
@@ -278,7 +285,7 @@ string votacaoColigacao(){
 	coligacoes.sort(comparaColigacao);
 
 	int cont = 0;
-	string saida = "Votação (nominal) das coligações e número de candidatos eleitos:\n\n";
+	string saida = "VotaÃ§Ã£o (nominal) das coligaÃ§Ãµes e nÃºmero de candidatos eleitos:\n\n";
 
 	for(Coligacao* co : coligacoes){
 		cont++;
@@ -297,7 +304,7 @@ string votacaoPartidos(){
 	partidos.sort(comparaPartido);
 
 	int cont = 0;
-	string saida = "Votação (nominal) dos partidos e número de candidatos eleitos:\n\n";
+	string saida = "VotaÃ§Ã£o (nominal) dos partidos e nÃºmero de candidatos eleitos:\n\n";
 
 	for(Partido* p : partidos){
 		cont++;
@@ -330,14 +337,14 @@ int main() {
 	getline(in, linha); //linha lixo
 
 	//loop q ira ler o texto
-	//o getline pode pegar os elementos até o delimitador ';'
+	//o getline pode pegar os elementos atï¿½ o delimitador ';'
 	while (getline(in, linha, ';')){
 		//coloca candidato na lista
 		adicionaCandidato(in, linha);
 	}
 
 	setVagas();
-	string saida = "Número de vagas: " + std::to_string(vagas) + "\n\n";
+	string saida = "NÃºmero de vagas: " + std::to_string(vagas) + "\n\n";
 	cout << saida;
 
 	cout << eleitos();
@@ -351,6 +358,11 @@ int main() {
 	cout << totalNominais();
 
 	in.close();
+
+	int i;
+	while(1) {
+		i = 0;
+	}
 
 	return 0;
 }

@@ -30,10 +30,10 @@ void Partido::setNome(const string& nome) {
 	this->nome = nome;
 }
 
-double Partido::getVotos() const {
+int Partido::getVotos() const {
 	return votos;
 }
-void Partido::setVotos(double votos) {
+void Partido::setVotos(int votos) {
 	this->votos += votos;
 }
 
