@@ -20,33 +20,15 @@ using namespace std;
 #include "Coligacao.h"
 #include "Eleicao.h"
 
-//Variaveis Globais
-list<Candidato*> candidatos;
-list<Candidato*> candidatosMaisVotados;
-
-list<Partido*> partidos;
-list<Coligacao*> coligacoes;
-
-string partidoColigacao;
-int vagas;
 
 int main() {
 	//leitura de arquivo
 	ifstream in("test.txt");
 
-	//std::locale mylocale("C");   // get global locale
-	//std::ifstream.imbue(mylocale);
-	//in.imbue(mylocale);
-	//setlocale(LC_ALL, "pt_BR.utf8");
-
-	string linha;
-
-
-
 	Eleicao* e = new Eleicao(in);
 
 	e->setVagas();
-	string saida = "NÃºmero de vagas: " + std::to_string(vagas) + "\n\n";
+	string saida = "Número de vagas: " + std::to_string(e->getVagas()) + "\n\n";
 	cout << saida;
 
 	cout << e->criaEleitos();
@@ -61,10 +43,10 @@ int main() {
 
 	in.close();
 
-//	int i;
-//	while(1) {
-//		i = 0;
-//	}
+	int i;
+	while(1) {
+		i = 0;
+	}
 
 	return 0;
 }

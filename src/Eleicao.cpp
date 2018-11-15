@@ -5,6 +5,8 @@
  *      Author: USER
  */
 
+#include "Eleicao.h"
+
 // FUNÇÕES AUXILIARES
 bool comparaCandidatos(Candidato* a, Candidato* b){
 	return a->getVotos() > b->getVotos();
@@ -14,12 +16,10 @@ bool comparaPartido(Partido* a, Partido* b){
 	return a->getVotos() > b->getVotos();
 }
 
-bool Eleicao::comparaColigacao(Coligacao* a, Coligacao* b){
+bool comparaColigacao(Coligacao* a, Coligacao* b){
 	return a->getVotos() > b->getVotos();
 }
 
-
-#include "Eleicao.h"
 
 Eleicao::Eleicao(ifstream& in) {
 	string lixo;
@@ -81,7 +81,7 @@ void Eleicao::setVagas(){
 
 void Eleicao::adicionaPartido(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
-	//esta em uma coligaÃ§Ã£o
+	//esta em uma coligação
 
 	for(Partido* p : partidos){
 		//se compare retornar 0 as strings sÃ£o iguais
@@ -92,7 +92,7 @@ void Eleicao::adicionaPartido(Candidato* c, string linha){
 			}
 
 			c->setPartido(p);
-			return;//mata a funÃ§Ã£o assim q a coligaÃ§Ã£o for encontrada
+			return;//mata a função assim q a coligação for encontrada
 				   // e atualizada
 		}
 	}
@@ -110,7 +110,7 @@ void Eleicao::adicionaPartido(Candidato* c, string linha){
 
 void Eleicao::adicionaColigacao(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
-	//esta em uma coligaÃ§Ã£o
+	//esta em uma coligação
 
 	for(Coligacao* co : this->coligacoes){
 		//se compare retornar 0 as strings sÃ£o iguais
@@ -122,7 +122,7 @@ void Eleicao::adicionaColigacao(Candidato* c, string linha){
 			}
 
 			c->setColigacao(co);
-			return;//mata a funÃ§Ã£o assim q a coligaÃ§Ã£o for encontrada
+			return;//mata a função assim q a coligação for encontrada
 				   // e atualizada
 		}
 	}
@@ -140,7 +140,7 @@ void Eleicao::adicionaColigacao(Candidato* c, string linha){
 }
 
 void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
-	unsigned split = linha.find(" - "); //string q separa partido de coligaÃ§Ã£o
+	unsigned split = linha.find(" - "); //string q separa partido de coligação
 
 	if(split == string::npos){//"npos" é retornado quando o find
 							  //nao encontra a o q procura
@@ -149,7 +149,7 @@ void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
 		adicionaColigacao(c, linha);
 	}
 	else{
-		//caso seja encontrada o split terï¿½ o valor da primeira posiÃ§Ã£o da
+		//caso seja encontrada o split terï¿½ o valor da primeira posição da
 		//string " - " logo tudo antes dela serï¿½ o partido em questÃ£o
 		string partido = linha.substr(0, split);
 
@@ -185,7 +185,7 @@ string Eleicao::criaMaisVotados(){
 	this->maisVotados.sort(comparaCandidatos);
 
 	int cont = 0;
-	string saida = "Candidatos mais votados (em ordem decrescente de votaÃ§Ã£o e respeitando nÃºmero de vagas):\n\n";
+	string saida = "Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):\n\n";
 
 	for(Candidato* c : this->maisVotados){
 		cont++;
@@ -198,8 +198,8 @@ string Eleicao::criaMaisVotados(){
 }
 
 string Eleicao::criaEleitosMajoritaria(){
-	string saida = "Teriam sido eleitos se a votaÃ§Ã£o fosse majoritÃ¡ria, e nÃ£o foram eleitos:\n";
-	saida += "(com sua posiÃ§Ã£o no ranking de mais votados)\n";
+	string saida = "Teriam sido eleitos se a votação fosse majoritÃ¡ria, e nÃ£o foram eleitos:\n";
+	saida += "(com sua posição no ranking de mais votados)\n";
 	int cont = 0;
 
 	for(Candidato* c : maisVotados){
@@ -217,7 +217,7 @@ string Eleicao::criaEleitosMajoritaria(){
 
 string Eleicao::criaBeneficiados(){
 	string saida = "Eleitos, que se beneficiaram do sistema proporcional:\n";
-	saida += "(com sua posiÃ§Ã£o no ranking de mais votados)\n";
+	saida += "(com sua posição no ranking de mais votados)\n";
 	int cont = 0;
 
 	for(Candidato* c : candidatos){
@@ -232,6 +232,7 @@ string Eleicao::criaBeneficiados(){
 	return saida;
 
 }
+
 
 string Eleicao::nFoiEleito(Candidato* c, int posicao){
 	int cont = 0;
@@ -268,7 +269,7 @@ string Eleicao::votacaoColigacao(){
 	coligacoes.sort(comparaColigacao);
 
 	int cont = 0;
-	string saida = "VotaÃ§Ã£o (nominal) das coligaÃ§Ãµes e nÃºmero de candidatos eleitos:\n\n";
+	string saida = "Votação (nominal) das coligações e número de candidatos eleitos:\n\n";
 
 	for(Coligacao* co : coligacoes){
 		cont++;
@@ -283,7 +284,7 @@ string Eleicao::votacaoPartidos(){
 	partidos.sort(comparaPartido);
 
 	int cont = 0;
-	string saida = "VotaÃ§Ã£o (nominal) dos partidos e nÃºmero de candidatos eleitos:\n\n";
+	string saida = "Votação (nominal) dos partidos e número de candidatos eleitos:\n\n";
 
 	for(Partido* p : partidos){
 		cont++;
