@@ -10,17 +10,51 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <list>
+#include <sstream>
 using namespace std;
 
-Candidato::Candidato(){
-	situacao = '0';
-	num = 0;
+Candidato::Candidato(string& entrada){
+	//Seq. (i);NÃºm.;Candidato;Partido/ColigaÃ§Ã£o;VotaÃ§Ã£o;% Vç–�idos FormataÃ§Ã£o do texto
+	//*0001;23123;FABRï¾�CIO GANDINI;PPS - PPS / PROS;7.611;4,21 %
+	stringstream in(entrada);
+	string linha;
+	//colocaÃ§Ã£o,  aprimeira linha jï¿½ ï¿½ pega pelo loop
+	getline(in, linha, ';');
+	situacao = linha[0];
+
+	//numero
+	getline(in, linha, ';');
+	int numero;
+	istringstream (linha) >> numero;
+	num = numero;
+
+	//nome
+	getline(in, linha, ';');
+	nome = linha;
+
+	//Partido/ColigaÃ§Ã£o
+	getline(in, linha, ';');
+	partidoColigacao = linha;
 	partido = NULL;
 	coligacao = NULL;
-	nome = "";
-	votos = 0;
-	next = NULL;
+
+	//votos
+	getline(in, linha, ';');
+	//conversÃ£o de string para int
+	int votosAux = tiraPontos(linha);
+	votos = votosAux;
+
+	//validos
+	getline(in, linha, '\n'); //nÃ£o ï¿½ utilizado para resolver o problema
+
+	//Partido/Coligacao
+	//splitPartidoColigacao(c, partidoColigacao); //chamar essa funÃ§Ã£o aqui, pois
+												//os votos do candidato estÃ£o computados
+
+
 }
+
 
 //printa candidato
 string Candidato::printCandidato(){
@@ -47,7 +81,7 @@ void Candidato::setNum(int num) {
 	this->num = num;
 }
 
-//SITUAﾇﾃO
+//SITUAï¾‡ï¾ƒO
 void Candidato::setSituacao(const std::string& colocacao) {
 	this->situacao = colocacao[0];
 }
@@ -67,17 +101,17 @@ Partido*& Candidato::getPartido() {
 	return partido;
 }
 
-void Candidato::setPartido(Partido*& partido) {
+void Candidato::setPartido( Partido*& partido) {
 	this->partido = partido;
 }
 
 //PROXIMO CANDIDATO
-Candidato*& Candidato::getNext() {
-	return this->next;
-}
-void Candidato::setNext(Candidato*& next) {
-	this->next = next;
-}
+//Candidato*& Candidato::getNext() {
+//	return this->next;
+//}
+//void Candidato::setNext(Candidato*& next) {
+//	this->next = next;
+//}
 
 //VOTOS
 int Candidato::getVotos() const {
@@ -91,3 +125,25 @@ Candidato::~Candidato() {
 	// TODO Auto-generated destructor stub
 }
 
+const string& Candidato::getPartidoColigacao() const {
+	return partidoColigacao;
+}
+
+void Candidato::setPartidoColigacao(const string& partidoColigacao) {
+	this->partidoColigacao = partidoColigacao;
+}
+
+//EXTRAS
+int Candidato::tiraPontos(string numString) {
+	unsigned ponto = numString.find(".");
+	while (ponto != string::npos) {
+		numString.erase(ponto, ponto);
+		ponto = numString.find(".");
+	}
+
+
+	//conversÃ£o de string para double
+	int numero;
+	istringstream (numString) >> numero;
+	return numero;
+}
