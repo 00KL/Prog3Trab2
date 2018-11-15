@@ -26,6 +26,7 @@ private:
 	list<Candidato*> candidatos;
 	list<Partido*> partidos;
 	list<Coligacao*> coligacoes;
+	int vagas;
 
 	list<Candidato*> eleitos;
 	list<Candidato*> maisVotados;
@@ -41,10 +42,23 @@ public:
 	void setColigacoes(const list<Coligacao*>&);
 	const list<Partido*>& getPartidos() const;
 	void setPartidos(const list<Partido*>&);
+	int getVagas() const;
+	void setVagas();
 
 	void adicionaPartido(Candidato*, string);
 	void adicionaColigacao(Candidato*, string);
 	void adicionaPartidoColigacao(Candidato*, string);
+
+	string criaEleitos();
+	string criaMaisVotados();
+	string criaEleitosMajoritaria();
+	string criaBeneficiados();
+
+	string nFoiEleito(Candidato* c, int posicao);
+	string foiEleito(Candidato* c);
+	string votacaoColigacao();
+	string votacaoPartidos();
+	string totalNominais();
 };
 
 #endif /* ELEICAO_H_ */

@@ -5,6 +5,20 @@
  *      Author: USER
  */
 
+// FUNÇÕES AUXILIARES
+bool comparaCandidatos(Candidato* a, Candidato* b){
+	return a->getVotos() > b->getVotos();
+}
+
+bool comparaPartido(Partido* a, Partido* b){
+	return a->getVotos() > b->getVotos();
+}
+
+bool Eleicao::comparaColigacao(Coligacao* a, Coligacao* b){
+	return a->getVotos() > b->getVotos();
+}
+
+
 #include "Eleicao.h"
 
 Eleicao::Eleicao(ifstream& in) {
@@ -50,6 +64,19 @@ const list<Partido*>& Eleicao::getPartidos() const {
 
 void Eleicao::setPartidos(const list<Partido*>& partidos) {
 	this->partidos = partidos;
+}
+
+int Eleicao::getVagas() const {
+	return vagas;
+}
+
+void Eleicao::setVagas(){
+	vagas = 0;
+	for(Candidato* c : candidatos){
+		if(c->getSituacao() == '*'){
+			vagas++;
+		}
+	}
 }
 
 void Eleicao::adicionaPartido(Candidato* c, string linha){
@@ -135,6 +162,146 @@ void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
 
 	}
 }
+
+
+string Eleicao::criaEleitos(){
+	int cont = 0;
+	string saida = "Vereadores eleitos:\n\n";
+	for(Candidato* c : candidatos){
+		if(c->getSituacao() == '*'){
+			cont++;
+			saida += std::to_string(cont) + " - ";
+			saida += c->printCandidato();
+		}
+
+	}
+	saida += "\n\n";
+
+	return saida;
+}
+
+string Eleicao::criaMaisVotados(){
+	this->maisVotados = candidatos;
+	this->maisVotados.sort(comparaCandidatos);
+
+	int cont = 0;
+	string saida = "Candidatos mais votados (em ordem decrescente de votaÃ§Ã£o e respeitando nÃºmero de vagas):\n\n";
+
+	for(Candidato* c : this->maisVotados){
+		cont++;
+		saida += std::to_string(cont) + " - ";
+		saida += c->printCandidato();
+		if( cont == vagas ) break;
+	}
+	saida += "\n\n";
+	return saida;
+}
+
+string Eleicao::criaEleitosMajoritaria(){
+	string saida = "Teriam sido eleitos se a votaÃ§Ã£o fosse majoritÃ¡ria, e nÃ£o foram eleitos:\n";
+	saida += "(com sua posiÃ§Ã£o no ranking de mais votados)\n";
+	int cont = 0;
+
+	for(Candidato* c : maisVotados){
+		cont++;
+		saida += nFoiEleito(c, cont);
+
+		if(cont == vagas) break;
+	}
+
+	saida += "\n\n";
+
+	return saida;
+
+}
+
+string Eleicao::criaBeneficiados(){
+	string saida = "Eleitos, que se beneficiaram do sistema proporcional:\n";
+	saida += "(com sua posiÃ§Ã£o no ranking de mais votados)\n";
+	int cont = 0;
+
+	for(Candidato* c : candidatos){
+		cont++;
+		saida += foiEleito(c);
+
+		if(cont == vagas) break;
+	}
+
+	saida += "\n\n";
+
+	return saida;
+
+}
+
+string Eleicao::nFoiEleito(Candidato* c, int posicao){
+	int cont = 0;
+	for(Candidato* can : candidatos){
+		cont++;
+		if(c->getNome().compare(can->getNome()) == 0){
+			return "";
+		}
+		if(cont == vagas) break;
+	}
+	string saida = std::to_string(posicao) + " - ";
+	saida += c->printCandidato();
+	return saida;
+}
+
+string Eleicao::foiEleito(Candidato* c){
+	int cont = 0;
+	for(Candidato* can : maisVotados){
+		cont++;
+
+		if(cont >= vagas){
+			if(c->getNome().compare(can->getNome()) == 0){
+				string saida = std::to_string(cont) + " - ";
+				saida += c->printCandidato();
+				return saida;
+			}
+		}
+	}
+
+	return "";
+}
+
+string Eleicao::votacaoColigacao(){
+	coligacoes.sort(comparaColigacao);
+
+	int cont = 0;
+	string saida = "VotaÃ§Ã£o (nominal) das coligaÃ§Ãµes e nÃºmero de candidatos eleitos:\n\n";
+
+	for(Coligacao* co : coligacoes){
+		cont++;
+		saida += std::to_string(cont) + " - ";
+		saida += co->printColigacao();
+	}
+	saida += "\n\n";
+	return saida;
+}
+
+string Eleicao::votacaoPartidos(){
+	partidos.sort(comparaPartido);
+
+	int cont = 0;
+	string saida = "VotaÃ§Ã£o (nominal) dos partidos e nÃºmero de candidatos eleitos:\n\n";
+
+	for(Partido* p : partidos){
+		cont++;
+		saida += std::to_string(cont) + " - ";
+		saida += p->printPartido();
+	}
+	saida += "\n\n";
+	return saida;
+
+}
+
+string Eleicao::totalNominais(){
+	string saida = std::to_string(candidatos.size());
+	return saida;
+}
+
+
+
 
 Eleicao::~Eleicao() {
 	// TODO Auto-generated destructor stub
