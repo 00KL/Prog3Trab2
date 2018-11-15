@@ -15,12 +15,12 @@ Eleicao::Eleicao(ifstream& in) {
 	//loop q ira ler o texto
 	//o getline pode pegar os elementos at�ｿｽ o delimitador ';'
 	char peek = in.peek();
-	while (peek != 'EOF'){
+	while (peek != EOF){
 		//coloca candidato na lista
 		string entrada;
 		getline(in, entrada);
 		Candidato* c = new Candidato(entrada);
-		adicionaPartidoColigacao(c, c->partidoColigacao);
+		adicionaPartidoColigacao(c, c->getPartidoColigacao());
 
 		candidatos.push_back(c);
 		peek = in.peek();
@@ -52,7 +52,7 @@ void Eleicao::setPartidos(const list<Partido*>& partidos) {
 	this->partidos = partidos;
 }
 
-void adicionaPartido(Candidato* c, string linha){
+void Eleicao::adicionaPartido(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
 	//esta em uma coligaÃ§Ã£o
 
@@ -81,7 +81,7 @@ void adicionaPartido(Candidato* c, string linha){
 
 }
 
-void adicionaColigacao(Candidato* c, string linha){
+void Eleicao::adicionaColigacao(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
 	//esta em uma coligaÃ§Ã£o
 
@@ -112,7 +112,7 @@ void adicionaColigacao(Candidato* c, string linha){
 
 }
 
-void adicionaPartidoColigacao(Candidato* c, string linha){
+void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
 	unsigned split = linha.find(" - "); //string q separa partido de coligaÃ§Ã£o
 
 	if(split == string::npos){//"npos" é retornado quando o find

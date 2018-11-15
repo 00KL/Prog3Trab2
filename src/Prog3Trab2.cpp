@@ -18,6 +18,7 @@ using namespace std;
 #include "Candidato.h"
 #include "Partido.h"
 #include "Coligacao.h"
+#include "Eleicao.h"
 
 //Variaveis Globais
 list<Candidato*> candidatos;
@@ -205,7 +206,7 @@ int main() {
 
 
 
-	Eleicao e = new Eleicao(in);
+	Eleicao* e = new Eleicao(in);
 
 	setVagas();
 	string saida = "NÃºmero de vagas: " + std::to_string(vagas) + "\n\n";
