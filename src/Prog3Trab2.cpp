@@ -21,9 +21,10 @@ using namespace std;
 #include "Eleicao.h"
 
 
-int main() {
+int main(int argc, char *argv[]) {
+
 	//leitura de arquivo
-	ifstream in("test.txt");
+	ifstream in(argv[1]);
 
 	Eleicao* e = new Eleicao(in);
 
@@ -43,10 +44,10 @@ int main() {
 
 	in.close();
 
-	int i;
-	while(1) {
-		i = 0;
-	}
+//	int i;
+//	while(1) {
+//		i = 0;
+//	}
 
 	return 0;
 }
