@@ -11,13 +11,19 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <list>
 using namespace std;
+
+#include "Candidato.h"
+#include "Partido.h"
 
 class Coligacao {
 private:
 	string nome;
 	int votos;
 	int eleitos;
+	list<Partido*> partidos;
+	list<Candidato*> candidatos;
 
 public:
 	int getEleitos() const;
@@ -30,6 +36,9 @@ public:
 	void setVotos(int votos);
 
 	string printColigacao();
+
+	void adicionaPartido(Partido* p);
+	void adicionaCandidato(Candidato* c);
 
 	Coligacao(string& n);
 	virtual ~Coligacao();
