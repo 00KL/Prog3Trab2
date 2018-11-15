@@ -27,18 +27,19 @@ private:
 	Coligacao* coligacao;
 	int votos;
 	Candidato* next;
+	string partidoColigacao;
 
 public:
 	//printa candidato
 	string printCandidato();
 
 
-	//SITUAÇÃO
+	//SITUAï¿½ï¿½O
 	void setSituacao(const std::string& colocacao);
 	char getSituacao() const;
 
 	//construtor e destrutor
-	Candidato();
+	Candidato(string& linha);
 	virtual ~Candidato();
 
 	//nome
@@ -55,16 +56,21 @@ public:
 	void setVotos(int votos);
 
 	//next
-	void setNext(Candidato*& next);
-	Candidato*& getNext();
+//	void setNext(Candidato*& next);
+//	Candidato*& getNext();
 
 	//COLIGACAO
 	Coligacao*& getColigacao();
 	void setColigacao( Coligacao*& coligacao);
 
 	//PARTIDO
-	Partido*& getPartido();
-	void setPartido(Partido*& partido);
+	 Partido*& getPartido();
+	void setPartido( Partido*& partido);
+
+	//EXTRAS
+	int tiraPontos(string numString);
+	const string& getPartidoColigacao() const;
+	void setPartidoColigacao(const string& partidoColigacao);
 };
 
 #endif /* CANDIDATO_H_ */
