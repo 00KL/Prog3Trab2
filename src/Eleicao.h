@@ -31,15 +31,20 @@ private:
 	list<Candidato*> maisVotados;
 	list<Candidato*> eleitosMajoritaria;
 	list<Candidato*> beneficiados;
+
 public:
-	Eleicao();
+	Eleicao(ifstream&);
 	virtual ~Eleicao();
 	const list<Candidato*>& getCandidatos() const;
-	void setCandidatos(const list<Candidato*>& candidatos);
+	void setCandidatos(const list<Candidato*>&);
 	const list<Coligacao*>& getColigacoes() const;
-	void setColigacoes(const list<Coligacao*>& coligacoes);
+	void setColigacoes(const list<Coligacao*>&);
 	const list<Partido*>& getPartidos() const;
-	void setPartidos(const list<Partido*>& partidos);
+	void setPartidos(const list<Partido*>&);
+
+	void adicionaPartido(Candidato*, string);
+	void adicionaColigacao(Candidato*, string);
+	void adicionaPartidoColigacao(Candidato*, string);
 };
 
 #endif /* ELEICAO_H_ */
