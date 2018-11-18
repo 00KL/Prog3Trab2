@@ -11,10 +11,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-using namespace std;
 
 #include "Partido.h"
 #include "Coligacao.h"
+using namespace std;
 
 class Candidato {
 

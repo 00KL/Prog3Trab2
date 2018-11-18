@@ -86,13 +86,24 @@ void Eleicao::adicionaPartido(Candidato* c, string linha){
 	for(Partido* p : partidos){
 		//se compare retornar 0 as strings sÃ£o iguais
 		if(linha.compare(p->getNome()) == 0){
-			p->adicionaCandidato(c);
+			p->setVotos(c->getVotos());
+			if(c->getSituacao() == '*'){
+				p->setEleitos(1);//adiciona um eleito ao contador de eleitos
+			}
+
 			c->setPartido(p);
+			return;//mata a função assim q a coligação for encontrada
+				   // e atualizada
 		}
 	}
 
 	Partido* p = new Partido(linha);
-	p->adicionaCandidato(c);
+	p->setVotos(c->getVotos());
+
+	if(c->getSituacao() == '*'){
+		p->setEleitos(1);
+	}
+	this->partidos.push_back(p);
 	c->setPartido(p);
 
 }
@@ -101,19 +112,31 @@ void Eleicao::adicionaColigacao(Candidato* c, string linha){
 	//caso tal string n tenhe sido encontrada o candidato n
 	//esta em uma coligação
 
-	for(Coligacao* col : this->coligacoes){
+	for(Coligacao* co : this->coligacoes){
 		//se compare retornar 0 as strings sÃ£o iguais
-		if(linha.compare(col->getNome()) == 0){
-			col->adicionaCandidato(c);
-			c->setColigacao(col);
+		if(linha.compare(co->getNome()) == 0){
+			co->setVotos(c->getVotos());
+
+			if(c->getSituacao() == '*'){
+				co->setEleitos(1);//adiciona um eleito ao contador de eleitos
+			}
+
+			c->setColigacao(co);
 			return;//mata a função assim q a coligação for encontrada
 				   // e atualizada
 		}
 	}
 
-	Coligacao* col = new Coligacao(linha);
-	col->adicionaCandidato(c);
-	c->setColigacao(col);
+	Coligacao* co = new Coligacao(linha);
+	co->setVotos(c->getVotos());
+
+	if(c->getSituacao() == '*'){
+		co->setEleitos(1);
+	}
+	this->coligacoes.push_back(co);
+	c->setColigacao(co);
+
+
 }
 
 void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){

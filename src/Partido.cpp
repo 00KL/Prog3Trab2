@@ -33,17 +33,8 @@ void Partido::setNome(const string& nome) {
 int Partido::getVotos() const {
 	return votos;
 }
-
 void Partido::setVotos(int votos) {
 	this->votos += votos;
-}
-
-void Partido::adicionaCandidato(Candidato* c) {
-	this->candidatos.push_back(c);
-	this->votos += c->getVotos();
-	if (c->getSituacao() == '*') {
-		this->eleitos++;
-	}
 }
 
 string Partido::printPartido(){

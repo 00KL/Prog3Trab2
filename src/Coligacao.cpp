@@ -8,9 +8,11 @@
 #include "Coligacao.h"
 
 Coligacao::Coligacao(string& n){
-	this->nome = n;
-	this->votos = 0;
-	this->eleitos = 0;
+	// TODO Auto-generated constructor stub
+	//cout << n << endl;
+	nome = n;
+	votos = 0;
+	eleitos = 0;
 }
 
 int Coligacao::getEleitos() const {
@@ -35,15 +37,6 @@ int Coligacao::getVotos() const {
 
 void Coligacao::setVotos(int votos) {
 	this->votos += votos;
-}
-
-void Coligacao::adicionaCandidato(Candidato* c) {
-	this->candidatos.push_back(c);
-	this->votos += c->getVotos();
-	if (c->getSituacao() == '*') {
-		this->eleitos++;
-	}
-	this->partidos.push_back(c->getPartido());
 }
 
 string Coligacao::printColigacao(){

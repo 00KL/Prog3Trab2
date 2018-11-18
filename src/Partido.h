@@ -11,17 +11,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <list>
-#include "Candidato.h"
 using namespace std;
-
 
 class Partido {
 private:
 	string nome;
 	int votos;
 	int eleitos;
-	list<Candidato*> candidatos;
 
 public:
 	Partido(string& nome);
@@ -35,8 +31,6 @@ public:
 
 	int getVotos() const;
 	void setVotos(int votos);
-
-	void adicionaCandidato(Candidato* c);
 
 	string printPartido();
 
