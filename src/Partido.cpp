@@ -40,7 +40,13 @@ void Partido::setVotos(int votos) {
 string Partido::printPartido(){
 	string saida =  this->nome + ", ";
 	saida += std::to_string(this->votos) + " votos, ";
-	saida += std::to_string(this->eleitos) + " candidatos eleitos \n";
+
+	if(this->eleitos > 1){
+			saida += std::to_string(this->eleitos) + " candidatos eleitos \n";
+	}else{
+		saida += std::to_string(this->eleitos) + " candidato eleito \n";
+	}
+
 	return saida;
 }
 

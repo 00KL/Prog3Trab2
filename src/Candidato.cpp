@@ -59,8 +59,13 @@ Candidato::Candidato(string& entrada){
 //printa candidato
 string Candidato::printCandidato(){
 	string saida = nome + " ";
-	saida += "(" + partido->getNome() + ", " +  std::to_string(votos) + ") - ";
-	saida += "Coligação: " + coligacao->getNome() + "\n";
+	saida += "(" + partido->getNome() + ", " +  std::to_string(votos) + " votos)";
+	if(coligacao->getNome() != partido->getNome() ){
+		saida += " - Coligação: " + coligacao->getNome() + "\n";
+	}
+	else{
+		saida += "\n";
+	}
 
 	return saida;
 }
@@ -135,9 +140,9 @@ void Candidato::setPartidoColigacao(const string& partidoColigacao) {
 
 //EXTRAS
 int Candidato::tiraPontos(string numString) {
-	unsigned ponto = numString.find(".");
+	std::size_t ponto = numString.find(".");
 	while (ponto != string::npos) {
-		numString.erase(ponto, ponto);
+		numString.erase(numString.begin()+ponto);
 		ponto = numString.find(".");
 	}
 

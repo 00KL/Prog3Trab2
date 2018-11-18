@@ -26,6 +26,9 @@ int main(int argc, char *argv[]) {
 	//leitura de arquivo
 	ifstream in(argv[1]);
 
+	//locale
+	 setlocale (LC_ALL,"pt_BR.UTF-8");
+
 	Eleicao* e = new Eleicao(in);
 
 	e->setVagas();

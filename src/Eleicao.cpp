@@ -135,17 +135,20 @@ void Eleicao::adicionaColigacao(Candidato* c, string linha){
 	}
 	this->coligacoes.push_back(co);
 	c->setColigacao(co);
-
+//	cout << "Linha: " << linha << endl;
+//	cout << "Coligacao nome:" << co->getNome() << endl;
+//	cout << endl;
 
 }
 
 void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
-	unsigned split = linha.find(" - "); //string q separa partido de coligação
+	std::size_t split = linha.find(" - "); //string q separa partido de coligação
 
 	if(split == string::npos){//"npos" é retornado quando o find
 							  //nao encontra a o q procura
 
 		adicionaPartido(c, linha);
+		//cout << linha << endl;
 		adicionaColigacao(c, linha);
 	}
 	else{
@@ -166,7 +169,7 @@ void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
 
 string Eleicao::criaEleitos(){
 	int cont = 0;
-	string saida = "Vereadores eleitos:\n\n";
+	string saida = "Vereadores eleitos:\n";
 	for(Candidato* c : candidatos){
 		if(c->getSituacao() == '*'){
 			cont++;
@@ -175,7 +178,7 @@ string Eleicao::criaEleitos(){
 		}
 
 	}
-	saida += "\n\n";
+	saida += "\n";
 
 	return saida;
 }
@@ -185,7 +188,7 @@ string Eleicao::criaMaisVotados(){
 	this->maisVotados.sort(comparaCandidatos);
 
 	int cont = 0;
-	string saida = "Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):\n\n";
+	string saida = "Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):\n";
 
 	for(Candidato* c : this->maisVotados){
 		cont++;
@@ -193,12 +196,12 @@ string Eleicao::criaMaisVotados(){
 		saida += c->printCandidato();
 		if( cont == vagas ) break;
 	}
-	saida += "\n\n";
+	saida += "\n";
 	return saida;
 }
 
 string Eleicao::criaEleitosMajoritaria(){
-	string saida = "Teriam sido eleitos se a votação fosse majoritÃ¡ria, e nÃ£o foram eleitos:\n";
+	string saida = "Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n";
 	saida += "(com sua posição no ranking de mais votados)\n";
 	int cont = 0;
 
@@ -209,7 +212,7 @@ string Eleicao::criaEleitosMajoritaria(){
 		if(cont == vagas) break;
 	}
 
-	saida += "\n\n";
+	saida += "\n";
 
 	return saida;
 
@@ -227,7 +230,7 @@ string Eleicao::criaBeneficiados(){
 		if(cont == vagas) break;
 	}
 
-	saida += "\n\n";
+	saida += "\n";
 
 	return saida;
 
@@ -253,7 +256,7 @@ string Eleicao::foiEleito(Candidato* c){
 	for(Candidato* can : maisVotados){
 		cont++;
 
-		if(cont >= vagas){
+		if(cont > vagas){
 			if(c->getNome().compare(can->getNome()) == 0){
 				string saida = std::to_string(cont) + " - ";
 				saida += c->printCandidato();
@@ -269,14 +272,15 @@ string Eleicao::votacaoColigacao(){
 	coligacoes.sort(comparaColigacao);
 
 	int cont = 0;
-	string saida = "Votação (nominal) das coligações e número de candidatos eleitos:\n\n";
+	string saida = "Votação (nominal) das coligações e número de candidatos eleitos:\n";
 
 	for(Coligacao* co : coligacoes){
 		cont++;
 		saida += std::to_string(cont) + " - ";
+		saida += "Coligação: ";
 		saida += co->printColigacao();
 	}
-	saida += "\n\n";
+	saida += "\n";
 	return saida;
 }
 
@@ -284,20 +288,26 @@ string Eleicao::votacaoPartidos(){
 	partidos.sort(comparaPartido);
 
 	int cont = 0;
-	string saida = "Votação (nominal) dos partidos e número de candidatos eleitos:\n\n";
+	string saida = "Votação (nominal) dos partidos e número de candidatos eleitos:\n";
 
 	for(Partido* p : partidos){
 		cont++;
 		saida += std::to_string(cont) + " - ";
 		saida += p->printPartido();
 	}
-	saida += "\n\n";
+	saida += "\n";
 	return saida;
 
 }
 
 string Eleicao::totalNominais(){
-	string saida = std::to_string(candidatos.size());
+	string saida = "Total de votos nominais: ";
+	int total = 0;
+	for(Candidato* c : candidatos){
+		total += c->getVotos();
+	}
+
+	saida += std::to_string(total) + "\n";
 	return saida;
 }
 
