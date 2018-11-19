@@ -277,6 +277,7 @@ string Eleicao::votacaoColigacao(){
 	for(Coligacao* co : coligacoes){
 		cont++;
 		saida += std::to_string(cont) + " - ";
+		saida += "Coligação: ";
 		saida += co->printColigacao();
 	}
 	saida += "\n";

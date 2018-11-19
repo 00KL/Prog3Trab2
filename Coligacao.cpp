@@ -40,8 +40,7 @@ void Coligacao::setVotos(int votos) {
 }
 
 string Coligacao::printColigacao(){
-	string saida = "Coligação: ";
-	saida += this->nome + ", ";
+	string saida = this->nome + ", ";
 	saida += std::to_string(this->votos) + " votos, ";
 	if(this->eleitos > 1){
 		saida += std::to_string(this->eleitos) + " candidatos eleitos\n";

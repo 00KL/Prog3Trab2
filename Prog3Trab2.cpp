@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 	ifstream in(argv[1]);
 
 	//locale
-	setlocale (LC_ALL,"pt_BR.UTF-8");
+	 setlocale (LC_ALL,"pt_BR.UTF-8");
 
 	Eleicao* e = new Eleicao(in);
 
