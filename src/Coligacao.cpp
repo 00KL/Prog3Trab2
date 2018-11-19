@@ -43,9 +43,9 @@ string Coligacao::printColigacao(){
 	string saida = this->nome + ", ";
 	saida += std::to_string(this->votos) + " votos, ";
 	if(this->eleitos > 1){
-		saida += std::to_string(this->eleitos) + " candidatos eleitos \n";
+		saida += std::to_string(this->eleitos) + " candidatos eleitos\n";
 	}else{
-		saida += std::to_string(this->eleitos) + " candidato eleito \n";
+		saida += std::to_string(this->eleitos) + " candidato eleito\n";
 	}
 
 	return saida;
