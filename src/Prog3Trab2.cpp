@@ -1,9 +1,10 @@
 //============================================================================
 // Name        : Prog3Trab2.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Author      : Lucas Mendonça Emery Cade
+//				 Lucas TODO: Lembrar o nome do RegatX
+// Description : Trabalho 2 de Programação 3, do semestre 2018/2
+//				 Implementar o sistema de impressão dos dados da eleição
+//				 Conforme as especificações, em C++
 //============================================================================
 
 #include <iostream>
@@ -14,7 +15,7 @@
 #include <locale>
 using namespace std;
 
-//classes
+// Classes
 #include "Candidato.h"
 #include "Partido.h"
 #include "Coligacao.h"
@@ -23,34 +24,35 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-	//leitura de arquivo
+	// Define o arquivo de entrada
 	ifstream in(argv[1]);
 
-	//locale
-	 setlocale (LC_ALL,"pt_BR.UTF-8");
+	// Locale
+	setlocale (LC_ALL,"pt_BR.UTF-8");
 
+	// Cria uma estrutura Eleicao a partir da entrada "in"
 	Eleicao* e = new Eleicao(in);
 
+	// Define o número de vagas e imprime
 	e->setVagas();
 	string saida = "Número de vagas: " + std::to_string(e->getVagas()) + "\n\n";
 	cout << saida;
 
+	// Cria as strings referentes às listas de candidatos e imprime
 	cout << e->criaEleitos();
 	cout << e->criaMaisVotados();
 	cout << e->criaEleitosMajoritaria();
 	cout << e->criaBeneficiados();
 
+	// Cria as strings referentes aos partidos e coligações e imprime
 	cout << e->votacaoColigacao();
 	cout << e->votacaoPartidos();
 
+	// Define o número total de votos e imprime
 	cout << e->totalNominais();
 
+	// Fecha o arquivo de entrada
 	in.close();
-
-//	int i;
-//	while(1) {
-//		i = 0;
-//	}
 
 	return 0;
 }

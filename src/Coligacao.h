@@ -20,19 +20,18 @@ private:
 	int eleitos;
 
 public:
+	Coligacao(string& n);
+
+	// Getters e Setters
 	int getEleitos() const;
 	void setEleitos(int eleitos);
-
 	const string& getNome() const;
 	void setNome(const string& nome);
-
 	int getVotos() const;
 	void setVotos(int votos);
 
+	// Retorna a string reeferente ao modelo de impressão das informações de uma coligação
 	string printColigacao();
-
-	Coligacao(string& n);
-	virtual ~Coligacao();
 };
 
 #endif /* COLIGACAO_H_ */

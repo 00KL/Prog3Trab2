@@ -1,5 +1,10 @@
 eclipse.preferences.version=1
 encoding//src/Candidato.cpp=UTF-8
 encoding//src/Candidato.h=UTF-8
+encoding//src/Coligacao.cpp=UTF-8
+encoding//src/Coligacao.h=UTF-8
 encoding//src/Eleicao.cpp=UTF-8
+encoding//src/Eleicao.h=UTF-8
+encoding//src/Partido.cpp=UTF-8
+encoding//src/Partido.h=UTF-8
 encoding//src/Prog3Trab2.cpp=UTF-8

@@ -1,8 +1,9 @@
 /*
  * Partido.h
  *
- *  Created on: 11 de nov de 2018
- *      Author: regata
+ *  Created on: 2018/11/11
+ *      Author: Lucas Mendonça Emery Cade
+ *      		Lucas TODO: Lembrar o nome do RegatX
  */
 
 #ifndef PARTIDO_H_
@@ -21,21 +22,20 @@ private:
 
 public:
 	Partido(string& nome);
-	virtual ~Partido();
 
+	// Getters e Setters
 	int getEleitos() const;
 	void setEleitos(int eleitos);
-
 	const string& getNome() const;
 	void setNome(const string& nome);
-
 	int getVotos() const;
 	void setVotos(int votos);
 
+	// Retorna a string referente ao modelo de impressão das informações de um partido
 	string printPartido();
 
+	// Compara o número de votos de dois partidos
 	bool comparaPartido(Partido* a, Partido* b);
-
 };
 
 #endif /* PARTIDO_H_ */

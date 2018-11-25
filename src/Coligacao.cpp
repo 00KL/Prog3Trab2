@@ -1,44 +1,40 @@
 /*
  * Coligacao.cpp
  *
- *  Created on: 11 de nov de 2018
- *      Author: regata
+ *  Created on: 2018/11/11
+ *      Author: Lucas Mendonça Emery Cade
+ *      		Lucas TODO: Lembrar o nome do RegatX
  */
 
 #include "Coligacao.h"
 
 Coligacao::Coligacao(string& n){
-	// TODO Auto-generated constructor stub
-	//cout << n << endl;
 	nome = n;
 	votos = 0;
 	eleitos = 0;
 }
 
+// Getters e Setters
 int Coligacao::getEleitos() const {
 	return eleitos;
 }
-
 void Coligacao::setEleitos(int eleitos) {
 	this->eleitos += eleitos;
 }
-
 const string& Coligacao::getNome() const {
 	return nome;
 }
-
 void Coligacao::setNome(const string& nome) {
 	this->nome = nome;
 }
-
 int Coligacao::getVotos() const {
 	return votos;
 }
-
 void Coligacao::setVotos(int votos) {
 	this->votos += votos;
 }
 
+// Retorna a string reeferente ao modelo de impressão das informações de uma coligação
 string Coligacao::printColigacao(){
 	string saida = this->nome + ", ";
 	saida += std::to_string(this->votos) + " votos, ";
@@ -50,8 +46,3 @@ string Coligacao::printColigacao(){
 
 	return saida;
 }
-
-Coligacao::~Coligacao() {
-	// TODO Auto-generated destructor stub
-}
-

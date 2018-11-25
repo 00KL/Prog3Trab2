@@ -1,8 +1,9 @@
 /*
  * Candidato.h
  *
- *  Created on: 9 de nov de 2018
- *      Author: regata
+ *  Created on: 2018/11/09
+ *      Author: Lucas Mendonça Emery Cade
+ *      		Lucas TODO: Lembrar o nome do RegatX
  */
 
 #ifndef CANDIDATO_H_
@@ -30,47 +31,32 @@ private:
 	string partidoColigacao;
 
 public:
+	Candidato(string& linha);
+
 	//printa candidato
-	string printCandidato();
 
-
-	//SITUA��O
+	// Getters e Setters
 	void setSituacao(const std::string& colocacao);
 	char getSituacao() const;
-
-	//construtor e destrutor
-	Candidato(string& linha);
-	virtual ~Candidato();
-
-	//nome
 	const std::string& getNome() const;
 	void setNome(const std::string& nome);
-
-	//num
 	int getNum() const;
 	void setNum(int num);
-
-
-	//votos
 	int getVotos() const;
 	void setVotos(int votos);
-
-	//next
-//	void setNext(Candidato*& next);
-//	Candidato*& getNext();
-
-	//COLIGACAO
 	Coligacao*& getColigacao();
 	void setColigacao( Coligacao*& coligacao);
-
-	//PARTIDO
-	 Partido*& getPartido();
+	Partido*& getPartido();
 	void setPartido( Partido*& partido);
-
-	//EXTRAS
-	int tiraPontos(string numString);
 	const string& getPartidoColigacao() const;
 	void setPartidoColigacao(const string& partidoColigacao);
+
+	// Retorna a string referente ao modelo de impressão de um candidato
+	string printCandidato();
+
+	// Recebe uma string referente a um número e converte para inteiro, retirando os pontos
+	//     que representam as divisões de 10³
+	int tiraPontos(string numString);
 };
 
 #endif /* CANDIDATO_H_ */
