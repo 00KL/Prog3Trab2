@@ -3,7 +3,7 @@
  *
  *  Created on: 2018/11/09
  *      Author: Lucas Mendonça Emery Cade
- *      		Lucas TODO: Lembrar o nome do RegatX
+ *      		Lucas Moraes Soares de Souza
  */
 
 #include "Candidato.h"

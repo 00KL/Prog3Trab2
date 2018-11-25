@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : Prog3Trab2.cpp
 // Author      : Lucas Mendonça Emery Cade
-//				 Lucas TODO: Lembrar o nome do RegatX
+//				 Lucas Moraes Soares de Souza
 // Description : Trabalho 2 de Programação 3, do semestre 2018/2
 //				 Implementar o sistema de impressão dos dados da eleição
 //				 Conforme as especificações, em C++

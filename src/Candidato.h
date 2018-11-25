@@ -3,7 +3,7 @@
  *
  *  Created on: 2018/11/09
  *      Author: Lucas Mendonça Emery Cade
- *      		Lucas TODO: Lembrar o nome do RegatX
+ *      		Lucas Moraes Soares de Souza
  */
 
 #ifndef CANDIDATO_H_
@@ -27,7 +27,6 @@ private:
 	Partido* partido;
 	Coligacao* coligacao;
 	int votos;
-	Candidato* next;
 	string partidoColigacao;
 
 public:

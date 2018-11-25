@@ -65,9 +65,9 @@ public:
 	//     pelo sistema de votos majoritário
 	string criaBeneficiados();
 
-	// TODO: Olhar com regatX
+	// Checa se o candidato que está em maisVotados está em candidatos
 	string nFoiEleito(Candidato* c, int posicao);
-	// TODO: Olhar com regatX
+	// Checa se o candidato que está em candidatos está em maisVotados
 	string foiEleito(Candidato* c);
 	// Essa função retorna a string referente à impressão das coligações
 	string votacaoColigacao();

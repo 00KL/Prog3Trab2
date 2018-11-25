@@ -3,7 +3,7 @@
  *
  *  Created on: 2018/11/15
  *      Author: Lucas Mendonça Emery Cade
- *      		Lucas TODO: lembrar o nome do RegatX
+ *      		Lucas Moraes Soares de Souza
  */
 
 #include "Eleicao.h"
@@ -274,29 +274,36 @@ string Eleicao::criaBeneficiados(){
 	return saida;
 }
 
-// TODO: Olhar com regatX
+// Checa se o candidato que está em maisVotados está em candidatos
 string Eleicao::nFoiEleito(Candidato* c, int posicao){
 	int cont = 0;
 	for(Candidato* can : candidatos){
 		cont++;
+		// Se o candidato estiver presente ums string vazia é retornada
 		if(c->getNome().compare(can->getNome()) == 0){
 			return "";
 		}
 		if(cont == vagas) break;
 	}
+	// Caso o candidato não tenhasito encontrado uma string é criada
+	// com o número referente aquele candidato na lista de mais votados
+	// e as informações do candidato em questão
 	string saida = std::to_string(posicao) + " - ";
 	saida += c->printCandidato();
 	return saida;
 }
 
-// TODO: Olhar com regatX
+// Checa se o candidato que está em candidatos está em maisVotados
 string Eleicao::foiEleito(Candidato* c){
 	int cont = 0;
 	for(Candidato* can : maisVotados){
 		cont++;
-
+		// Se o candidato estiver presente ums string vazia é retornada
 		if(cont > vagas){
 			if(c->getNome().compare(can->getNome()) == 0){
+				// Caso o candidato não tenhasito encontrado uma string é criada
+				// com o número referente aquele candidato na lista de mais votados
+				// e as informações do candidato em questão
 				string saida = std::to_string(cont) + " - ";
 				saida += c->printCandidato();
 				return saida;
