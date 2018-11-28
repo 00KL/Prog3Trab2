@@ -25,9 +25,7 @@ private:
 	list<Candidato*> maisVotados;
 
 	// Funções Auxiliares
-	bool comparaCandidato(Candidato*, Candidato*);
-	bool comparaPartido(Partido*, Partido*);
-	bool comparaColigacao(Coligacao*, Coligacao*);
+
 
 public:
 	// Faz a impressão geral de toda a Eleição, baseado nos modelos especificados

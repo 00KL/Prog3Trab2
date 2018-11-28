@@ -30,7 +30,8 @@ private:
 	string partidoColigacao;
 
 public:
-	Candidato(string& sit, int numero, string& name, string& partCol, int votes);
+	Candidato();
+	Candidato(char& sit, int numero, string& name, string& partCol, int votes);
 
 	// Getters e Setters
 	void setSituacao(const std::string& colocacao);
@@ -47,10 +48,6 @@ public:
 	void setPartido( Partido*& partido);
 	const string& getPartidoColigacao() const;
 	void setPartidoColigacao(const string& partidoColigacao);
-
-	// Recebe uma string referente a um número e converte para inteiro, retirando os pontos
-	//     que representam as divisões de 10³
-	int tiraPontos(string numString);
 };
 
 #endif /* CANDIDATO_H_ */

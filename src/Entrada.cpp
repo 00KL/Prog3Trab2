@@ -27,11 +27,8 @@ void Entrada::leEntrada(ifstream& in, Eleicao& eleicao) {
 		// Cria um candidato novo a partir dessa linha
 		Candidato* c = criaCandidato(entrada);
 
-		// Organiza seu partido e coligação nas listas relevantes
-		eleicao.adicionaPartidoColigacao(c, c->getPartidoColigacao());
-
 		// Insere o candidato na lista de candidatos
-		eleicao.candidatos.push_back(c);
+		eleicao.adicionaCandidato(c);
 
 		// Verifica o primeiro caracter da próxima linha
 		peek = in.peek();
@@ -50,7 +47,7 @@ Candidato* Entrada::criaCandidato(string& entrada) {
 	string linha;
 
 	// Strings de entrada para o construtor de candidato
-	string situacao;
+	char situacao;
 	int numero;
 	string nome;
 	string partidoColigacao;
@@ -86,8 +83,7 @@ Candidato* Entrada::criaCandidato(string& entrada) {
 	//     inutilizado no problema
 	getline(in, linha, '\n');
 
-	Candidato* c = Candidato(situacao, numero, nome, partidoColigacao, votos);
-
+	Candidato* c = new Candidato(situacao, numero, nome, partidoColigacao, votos);
 	return c;
 }
 

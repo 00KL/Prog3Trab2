@@ -8,6 +8,20 @@
 
 #include "Saida.h"
 
+// <FUNÇÕES AUXILIARES>
+bool comparaCandidato(Candidato* a, Candidato* b){
+	return a->getVotos() > b->getVotos();
+}
+
+bool comparaPartido(Partido* a, Partido* b){
+	return a->getVotos() > b->getVotos();
+}
+
+bool comparaColigacao(Coligacao* a, Coligacao* b){
+	return a->getVotos() > b->getVotos();
+}
+// </FUNÇÕES AUXILIARES>
+
 void Saida::imprimeEleicao(Eleicao& e) {
 	string saida = "Número de vagas: " + std::to_string(e.getVagas()) + "\n\n";
 	cout << saida;
@@ -20,8 +34,8 @@ void Saida::imprimeEleicao(Eleicao& e) {
 
 	// Ordena as listas de partidos e coligações por votos, depois
 	//     cria as strings referentes aos partidos e coligações e imprime
-	cout << votacaoColigacao(e);
-	cout << votacaoPartidos(e);
+	cout << votacaoColigacao(e.getColigacoes());
+	cout << votacaoPartidos(e.getPartidos());
 
 	// Define o número total de votos e imprime
 	cout << totalNominais(e);
@@ -46,7 +60,7 @@ string Saida::imprimePartido(Partido* p){
 	string saida =  p->getNome() + ", ";
 	saida += std::to_string(p->getVotos()) + " votos, ";
 
-	if(this->eleitos > 1){
+	if(p->getEleitos() > 1){
 			saida += std::to_string(p->getEleitos()) + " candidatos eleitos\n";
 	}else{
 		saida += std::to_string(p->getEleitos()) + " candidato eleito\n";
@@ -58,7 +72,7 @@ string Saida::imprimePartido(Partido* p){
 string Saida::imprimeColigacao(Coligacao* col){
 	string saida = col->getNome() + ", ";
 	saida += std::to_string(col->getVotos()) + " votos, ";
-	if(this->eleitos > 1){
+	if(col->getEleitos() > 1){
 		saida += std::to_string(col->getEleitos()) + " candidatos eleitos\n";
 	}else{
 		saida += std::to_string(col->getEleitos()) + " candidato eleito\n";
@@ -222,15 +236,4 @@ string Saida::totalNominais(Eleicao& e){
 	return saida;
 }
 
-// FUNÇÕES AUXILIARES
-bool Saida::comparaCandidato(Candidato* a, Candidato* b){
-	return a->getVotos() > b->getVotos();
-}
 
-bool Saida::comparaPartido(Partido* a, Partido* b){
-	return a->getVotos() > b->getVotos();
-}
-
-bool Saida::comparaColigacao(Coligacao* a, Coligacao* b){
-	return a->getVotos() > b->getVotos();
-}

@@ -25,10 +25,15 @@ using namespace std;
 
 class Entrada {
 private:
+	// Recebe uma string referente a um número e converte para inteiro, retirando os pontos
+	//     que representam as divisões de 10³
 	int tiraPontos(string&);
 public:
 	void leEntrada(ifstream&, Eleicao&);
 	Candidato* criaCandidato(string&);
+
+
+
 };
 
 

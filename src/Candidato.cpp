@@ -15,7 +15,11 @@
 #include <sstream>
 using namespace std;
 
-Candidato::Candidato(string& sit, int numero, string& name, string& partCol, int votes){
+Candidato::Candidato() {
+	partido = NULL;
+	coligacao = NULL;
+}
+Candidato::Candidato(char& sit, int numero, string& name, string& partCol, int votes){
 	situacao = sit;
 	num = numero;
 	nome = name;

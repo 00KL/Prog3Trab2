@@ -174,6 +174,10 @@ void Eleicao::adicionaPartidoColigacao(Candidato* c){
 	}
 }
 
+void Eleicao::adicionaCandidato(Candidato* c) {
+	candidatos.push_back(c);
+}
+
 Eleicao::~Eleicao(){
 	for(Candidato* c : candidatos){
 		delete c;
