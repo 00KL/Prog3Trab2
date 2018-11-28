@@ -21,6 +21,11 @@ using namespace std;
 #include "Coligacao.h"
 #include "Eleicao.h"
 
+// Entrada e Saída
+#include "Entrada.h"
+Entrada entrada;
+#include "Saida.h"
+Saida saida;
 
 int main(int argc, char *argv[]) {
 
@@ -30,26 +35,16 @@ int main(int argc, char *argv[]) {
 	// Locale
 	setlocale (LC_ALL,"pt_BR.UTF-8");
 
-	// Cria uma estrutura Eleicao a partir da entrada "in"
-	Eleicao* e = new Eleicao(in);
+	// Cria uma estrutura Eleicao
+	Eleicao e = Eleicao();
 
-	// Define o número de vagas e imprime
-	e->setVagas();
-	string saida = "Número de vagas: " + std::to_string(e->getVagas()) + "\n\n";
-	cout << saida;
+	// Le o arquivo de entrada e preenche as informações da eleião
+	entrada.leEntrada(in, e);
 
-	// Cria as strings referentes às listas de candidatos e imprime
-	cout << e->criaEleitos();
-	cout << e->criaMaisVotados();
-	cout << e->criaEleitosMajoritaria();
-	cout << e->criaBeneficiados();
+	// Preenche as listas de partidos e coligações e calcula o número de vagas
+	e.partidoColigacaoVagas();
 
-	// Cria as strings referentes aos partidos e coligações e imprime
-	cout << e->votacaoColigacao();
-	cout << e->votacaoPartidos();
-
-	// Define o número total de votos e imprime
-	cout << e->totalNominais();
+	saida.imprimeEleicao(e);
 
 	// Fecha o arquivo de entrada
 	in.close();

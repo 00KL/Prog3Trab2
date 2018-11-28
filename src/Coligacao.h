@@ -1,8 +1,9 @@
 /*
  * Coligacao.h
  *
- *  Created on: 11 de nov de 2018
- *      Author: regata
+ *  Created on: 2018/11/11
+ *      Author: Lucas Mendonça Emery Cade
+ *      		Lucas Moraes Soares de Souza
  */
 
 #ifndef COLIGACAO_H_
@@ -29,9 +30,6 @@ public:
 	void setNome(const string& nome);
 	int getVotos() const;
 	void setVotos(int votos);
-
-	// Retorna a string reeferente ao modelo de impressão das informações de uma coligação
-	string printColigacao();
 };
 
 #endif /* COLIGACAO_H_ */

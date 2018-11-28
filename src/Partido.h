@@ -30,12 +30,6 @@ public:
 	void setNome(const string& nome);
 	int getVotos() const;
 	void setVotos(int votos);
-
-	// Retorna a string referente ao modelo de impressão das informações de um partido
-	string printPartido();
-
-	// Compara o número de votos de dois partidos
-	bool comparaPartido(Partido* a, Partido* b);
 };
 
 #endif /* PARTIDO_H_ */

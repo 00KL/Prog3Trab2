@@ -30,9 +30,7 @@ private:
 	string partidoColigacao;
 
 public:
-	Candidato(string& linha);
-
-	//printa candidato
+	Candidato(string& sit, int numero, string& name, string& partCol, int votes);
 
 	// Getters e Setters
 	void setSituacao(const std::string& colocacao);
@@ -49,9 +47,6 @@ public:
 	void setPartido( Partido*& partido);
 	const string& getPartidoColigacao() const;
 	void setPartidoColigacao(const string& partidoColigacao);
-
-	// Retorna a string referente ao modelo de impressão de um candidato
-	string printCandidato();
 
 	// Recebe uma string referente a um número e converte para inteiro, retirando os pontos
 	//     que representam as divisões de 10³

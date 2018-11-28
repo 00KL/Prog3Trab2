@@ -2,7 +2,8 @@
  * Eleicao.h
  *
  *  Created on: 2018/11/15
- *      Author: USER
+ *      Author: Lucas Mendonça Emery Cade
+ *      		Lucas Moraes Soares de Souza
  */
 
 #include <iostream>
@@ -28,11 +29,6 @@ private:
 	list<Coligacao*> coligacoes;
 	int vagas;
 
-	list<Candidato*> eleitos;
-	list<Candidato*> maisVotados;
-	list<Candidato*> eleitosMajoritaria;
-	list<Candidato*> beneficiados;
-
 public:
 	Eleicao(ifstream&);
 
@@ -46,13 +42,16 @@ public:
 	//     de candidatos eleitos no arquivo de entrada
 	void setVagas();
 
+	// Arruma os partidos, coligações e contagem de vagas
+	void partidoColigacaoVagas();
 	// Adiciona um partido a partir de uma string em um candidato e na lista de partidos
 	void adicionaPartido(Candidato*, string);
 	// Adiciona uma coligação a partir de uma string em um candidato e na lista de coligações
 	void adicionaColigacao(Candidato*, string);
 	// Divide a string referente ao partido e coligação e chama as funções adicionaPartido e
 	// 	   adicionaColigacao para adicioná-los no candidato e nas listas
-	void adicionaPartidoColigacao(Candidato*, string);
+	void adicionaPartidoColigacao(Candidato*);
+
 
 	// Essa função cria a string referente à lista de candidatos eleitos
 	string criaEleitos();
@@ -75,6 +74,8 @@ public:
 	string votacaoPartidos();
 	// Essa função retorna a string referente à impressão do total de votos nominais
 	string totalNominais();
+
+	~Eleicao();
 };
 
 #endif /* ELEICAO_H_ */

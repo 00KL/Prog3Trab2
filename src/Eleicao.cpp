@@ -8,51 +8,9 @@
 
 #include "Eleicao.h"
 
-// FUNÇÕES AUXILIARES
-bool comparaCandidatos(Candidato* a, Candidato* b){
-	return a->getVotos() > b->getVotos();
+Eleicao::Eleicao() {
+	vagas = 0;
 }
-
-bool comparaPartido(Partido* a, Partido* b){
-	return a->getVotos() > b->getVotos();
-}
-
-bool comparaColigacao(Coligacao* a, Coligacao* b){
-	return a->getVotos() > b->getVotos();
-}
-
-
-Eleicao::Eleicao(ifstream& in) {
-
-	// A primeira linha do arquivo é um modelo e deve ser ignorado
-	string lixo;
-	getline(in, lixo);
-
-	// Loop q ira ler o texto
-	// Cria um caracter utilizado para verificar o EOF
-	char peek = in.peek();
-
-	// Enquanto o caracter não for o EOF
-	while (peek != EOF){
-
-		// Lê uma linha da entrada
-		string entrada;
-		getline(in, entrada);
-
-		// Cria um candidato novo a partir dessa linha
-		Candidato* c = new Candidato(entrada);
-
-		// Organiza seu partido e coligação nas listas relevantes
-		adicionaPartidoColigacao(c, c->getPartidoColigacao());
-
-		// Insere o candidato na lista de candidatos
-		candidatos.push_back(c);
-
-		// Verifica o primeiro caracter da próxima linha
-		peek = in.peek();
-	}
-}
-
 
 // Getters (só o getVagas() é utilizado no código)
 const list<Candidato*>& Eleicao::getCandidatos() const {
@@ -83,6 +41,17 @@ void Eleicao::setVagas(){
 	}
 }
 
+// Arruma os partidos, coligações e contagem de vagas
+void Eleicao::partidoColigacaoVagas() {
+
+	// Organiza os partidos e coligações nas listas
+	for (Candidato* c : candidatos) {
+		adicionaPartidoColigacao(c);
+	}
+
+	// Define o número de vagas
+	setVagas();
+}
 
 // Adiciona um partido a partir de uma string em um candidato e na lista de partidos
 void Eleicao::adicionaPartido(Candidato* c, string linha){
@@ -174,10 +143,12 @@ void Eleicao::adicionaColigacao(Candidato* c, string linha){
 
 // Divide a string referente ao partido e coligação e chama as funções adicionaPartido e
 // 	   adicionaColigacao para adicioná-los no candidato e nas listas
-void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
+void Eleicao::adicionaPartidoColigacao(Candidato* c){
+
+	string partidoColigacao = c->getPartidoColigacao();
 
 	// Cria uma variável que recebe a posição do hífen que separa o partido e a coligação
-	std::size_t split = linha.find("-");
+	std::size_t split = partidoColigacao.find("-");
 
 	// Se não houver o hífen na string
 	if(split == string::npos){
@@ -185,8 +156,8 @@ void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
 		// A string está na forma "[Partido]", então
 
 		// A coligação do partido é ele mesmo, então ele é inserido nas duas funções
-		adicionaPartido(c, linha);
-		adicionaColigacao(c, linha);
+		adicionaPartido(c, partidoColigacao);
+		adicionaColigacao(c, partidoColigacao);
 
 	// Se houver hífen na string
 	}else{
@@ -194,167 +165,25 @@ void Eleicao::adicionaPartidoColigacao(Candidato* c, string linha){
 		         // split marca essa posição ^
 
 		// O partido é a primeira parte da string, até o espaço antes do hífen
-		string partido = linha.substr(0, split-1);
+		string partido = partidoColigacao.substr(0, split-1);
 		adicionaPartido(c, partido);
 
 		// A coligação é a segunda parte da string, depois do espaço após o hífen
-		string coligacao = linha.substr(split+2, linha.size());
+		string coligacao = partidoColigacao.substr(split+2, partidoColigacao.size());
 		adicionaColigacao(c, coligacao);
 	}
 }
 
-
-// As funções abaixo tem a mesma funcionalidade, criar uma string referente a
-//     alguma das listas especificadas para impressão
-
-// Essa função cria a string referente à lista de candidatos eleitos
-string Eleicao::criaEleitos(){
-	int cont = 0;
-	string saida = "Vereadores eleitos:\n";
+Eleicao::~Eleicao(){
 	for(Candidato* c : candidatos){
-		if(c->getSituacao() == '*'){
-			cont++;
-			saida += std::to_string(cont) + " - ";
-			saida += c->printCandidato();
-		}
+		delete c;
 	}
-	saida += "\n";
-	return saida;
-}
-
-// Essa função cria a string referente à lista de candidatos mais votados
-string Eleicao::criaMaisVotados(){
-	this->maisVotados = candidatos;
-	this->maisVotados.sort(comparaCandidatos);
-
-	int cont = 0;
-	string saida = "Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):\n";
-
-	for(Candidato* c : this->maisVotados){
-		cont++;
-		saida += std::to_string(cont) + " - ";
-		saida += c->printCandidato();
-		if( cont == vagas ) break;
-	}
-	saida += "\n";
-	return saida;
-}
-
-// Essa função cria a string referente à lista de candidatos que seriam eleitos caso
-//     fosse usado o sistema de votos majoritário
-string Eleicao::criaEleitosMajoritaria(){
-	string saida = "Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n";
-	saida += "(com sua posição no ranking de mais votados)\n";
-	int cont = 0;
-
-	for(Candidato* c : maisVotados){
-		cont++;
-		saida += nFoiEleito(c, cont);
-
-		if(cont == vagas) break;
-	}
-	saida += "\n";
-	return saida;
-}
-
-// Essa função cria a string referente à lista de candidatos que não teriam sido eleitos
-//     pelo sistema de votos majoritário
-string Eleicao::criaBeneficiados(){
-	string saida = "Eleitos, que se beneficiaram do sistema proporcional:\n";
-	saida += "(com sua posição no ranking de mais votados)\n";
-	int cont = 0;
-
-	for(Candidato* c : candidatos){
-		cont++;
-		saida += foiEleito(c);
-
-		if(cont == vagas) break;
-	}
-	saida += "\n";
-	return saida;
-}
-
-// Checa se o candidato que está em maisVotados está em candidatos
-string Eleicao::nFoiEleito(Candidato* c, int posicao){
-	int cont = 0;
-	for(Candidato* can : candidatos){
-		cont++;
-		// Se o candidato estiver presente ums string vazia é retornada
-		if(c->getNome().compare(can->getNome()) == 0){
-			return "";
-		}
-		if(cont == vagas) break;
-	}
-	// Caso o candidato não tenhasito encontrado uma string é criada
-	// com o número referente aquele candidato na lista de mais votados
-	// e as informações do candidato em questão
-	string saida = std::to_string(posicao) + " - ";
-	saida += c->printCandidato();
-	return saida;
-}
-
-// Checa se o candidato que está em candidatos está em maisVotados
-string Eleicao::foiEleito(Candidato* c){
-	int cont = 0;
-	for(Candidato* can : maisVotados){
-		cont++;
-		// Se o candidato estiver presente ums string vazia é retornada
-		if(cont > vagas){
-			if(c->getNome().compare(can->getNome()) == 0){
-				// Caso o candidato não tenhasito encontrado uma string é criada
-				// com o número referente aquele candidato na lista de mais votados
-				// e as informações do candidato em questão
-				string saida = std::to_string(cont) + " - ";
-				saida += c->printCandidato();
-				return saida;
-			}
-		}
-	}
-	return "";
-}
-
-// Essa função retorna a string referente à impressão das coligações
-string Eleicao::votacaoColigacao(){
-	coligacoes.sort(comparaColigacao);
-
-	int cont = 0;
-	string saida = "Votação (nominal) das coligações e número de candidatos eleitos:\n";
-
-	for(Coligacao* co : coligacoes){
-		cont++;
-		saida += std::to_string(cont) + " - ";
-		saida += "Coligação: ";
-		saida += co->printColigacao();
-	}
-	saida += "\n";
-	return saida;
-}
-
-// Essa função retorna a string referente à impressão dos partidos
-string Eleicao::votacaoPartidos(){
-	partidos.sort(comparaPartido);
-
-	int cont = 0;
-	string saida = "Votação (nominal) dos partidos e número de candidatos eleitos:\n";
-
 	for(Partido* p : partidos){
-		cont++;
-		saida += std::to_string(cont) + " - ";
-		saida += p->printPartido();
+		delete p;
 	}
-	saida += "\n";
-	return saida;
-
+	for(Coligacao* ca : coligacoes){
+		delete ca;
+	}
 }
 
-// Essa função retorna a string referente à impressão do total de votos nominais
-string Eleicao::totalNominais(){
-	string saida = "Total de votos nominais: ";
-	int total = 0;
-	for(Candidato* c : candidatos){
-		total += c->getVotos();
-	}
 
-	saida += std::to_string(total) + "\n";
-	return saida;
-}
