@@ -53,6 +53,39 @@ void Eleicao::partidoColigacaoVagas() {
 	setVagas();
 }
 
+// Divide a string referente ao partido e coligação e chama as funções adicionaPartido e
+// 	   adicionaColigacao para adicioná-los no candidato e nas listas
+void Eleicao::adicionaPartidoColigacao(Candidato* c){
+
+	string partidoColigacao = c->getPartidoColigacao();
+
+	// Cria uma variável que recebe a posição do hífen que separa o partido e a coligação
+	std::size_t split = partidoColigacao.find("-");
+
+	// Se não houver o hífen na string
+	if(split == string::npos){
+
+		// A string está na forma "[Partido]", então
+
+		// A coligação do partido é ele mesmo, então ele é inserido nas duas funções
+		adicionaPartido(c, partidoColigacao);
+		adicionaColigacao(c, partidoColigacao);
+
+	// Se houver hífen na string
+	}else{
+		// A string está na forma "[Partido] - [Coligação]", então
+		         // split marca essa posição ^
+
+		// O partido é a primeira parte da string, até o espaço antes do hífen
+		string partido = partidoColigacao.substr(0, split-1);
+		adicionaPartido(c, partido);
+
+		// A coligação é a segunda parte da string, depois do espaço após o hífen
+		string coligacao = partidoColigacao.substr(split+2, partidoColigacao.size());
+		adicionaColigacao(c, coligacao);
+	}
+}
+
 // Adiciona um partido a partir de uma string em um candidato e na lista de partidos
 void Eleicao::adicionaPartido(Candidato* c, string linha){
 
@@ -94,7 +127,6 @@ void Eleicao::adicionaPartido(Candidato* c, string linha){
 	// E colocado nas informações do candidato
 	c->setPartido(p);
 }
-
 
 // Adiciona uma coligação a partir de uma string em um candidato e na lista de coligações
 void Eleicao::adicionaColigacao(Candidato* c, string linha){
@@ -141,38 +173,6 @@ void Eleicao::adicionaColigacao(Candidato* c, string linha){
 }
 
 
-// Divide a string referente ao partido e coligação e chama as funções adicionaPartido e
-// 	   adicionaColigacao para adicioná-los no candidato e nas listas
-void Eleicao::adicionaPartidoColigacao(Candidato* c){
-
-	string partidoColigacao = c->getPartidoColigacao();
-
-	// Cria uma variável que recebe a posição do hífen que separa o partido e a coligação
-	std::size_t split = partidoColigacao.find("-");
-
-	// Se não houver o hífen na string
-	if(split == string::npos){
-
-		// A string está na forma "[Partido]", então
-
-		// A coligação do partido é ele mesmo, então ele é inserido nas duas funções
-		adicionaPartido(c, partidoColigacao);
-		adicionaColigacao(c, partidoColigacao);
-
-	// Se houver hífen na string
-	}else{
-		// A string está na forma "[Partido] - [Coligação]", então
-		         // split marca essa posição ^
-
-		// O partido é a primeira parte da string, até o espaço antes do hífen
-		string partido = partidoColigacao.substr(0, split-1);
-		adicionaPartido(c, partido);
-
-		// A coligação é a segunda parte da string, depois do espaço após o hífen
-		string coligacao = partidoColigacao.substr(split+2, partidoColigacao.size());
-		adicionaColigacao(c, coligacao);
-	}
-}
 
 void Eleicao::adicionaCandidato(Candidato* c) {
 	candidatos.push_back(c);

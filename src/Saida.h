@@ -23,10 +23,7 @@ class Saida {
 private:
 	list<Candidato*> eleitos;
 	list<Candidato*> maisVotados;
-
-	// Funções Auxiliares
-
-
+	
 public:
 	// Faz a impressão geral de toda a Eleição, baseado nos modelos especificados
 	void imprimeEleicao(Eleicao&);
@@ -42,9 +39,11 @@ public:
 	string criaEleitosMajoritaria(Eleicao&);
 	string criaBeneficiados(Eleicao&);
 
-	// Cria as strings referentes aos partidos e coligações e imprime
+	// Funções auxiliares para a criação das listas acima
 	string nFoiEleito(Eleicao&, Candidato*, int);
 	string foiEleito(Eleicao&, Candidato*);
+
+	// Cria as strings referentes aos partidos e coligações e imprime
 	// Essas funções recebem cópias das listas já que elas tem que ser ordenadas
 	string votacaoColigacao(list<Coligacao*>);
 	string votacaoPartidos(list<Partido*>);

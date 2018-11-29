@@ -44,13 +44,13 @@ public:
 
 	// Arruma os partidos, coligações e contagem de vagas
 	void partidoColigacaoVagas();
+	// Divide a string referente ao partido e coligação e chama as funções adicionaPartido e
+	// 	   adicionaColigacao para adicioná-los no candidato e nas listas
+	void adicionaPartidoColigacao(Candidato*);
 	// Adiciona um partido a partir de uma string em um candidato e na lista de partidos
 	void adicionaPartido(Candidato*, string);
 	// Adiciona uma coligação a partir de uma string em um candidato e na lista de coligações
 	void adicionaColigacao(Candidato*, string);
-	// Divide a string referente ao partido e coligação e chama as funções adicionaPartido e
-	// 	   adicionaColigacao para adicioná-los no candidato e nas listas
-	void adicionaPartidoColigacao(Candidato*);
 	// Adiciona um candidato na lista de candidatos
 	void adicionaCandidato(Candidato*);
 
